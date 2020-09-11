@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>暨大校務系統學生專用簡易版</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" type="text/css" href="adminlte3/css/adminlte.css">
+<link rel="stylesheet" type="text/css" href="plugins/fontawesome-free/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="plugins/fontawesome-free/css/v4-shims.css">
+<link rel="stylesheet" type="text/css" href="css/OverlayScrollbars.min.css">
+<link rel="stylesheet" type="text/css" href="css/student2.css">
+<script src="js/ewpolyfill.min.js"></script>
+<script src="js/loadjs.min.js"></script>
+<script src="js/ewcfg.js"></script>
+<script>
+Object.assign(ew, {
+	LANGUAGE_ID: "zh-tw",
+	DATE_SEPARATOR: "/", // Date separator
+	TIME_SEPARATOR: ":", // Time separator
+	DATE_FORMAT: "yyyy/mm/dd", // Default date format
+	DATE_FORMAT_ID: 5, // Default date format ID
+	DATETIME_WITHOUT_SECONDS: false, // Date/Time without seconds
+	DECIMAL_POINT: ".",
+	THOUSANDS_SEP: ",",
+	SESSION_TIMEOUT: 1170, // Session timeout time (seconds)
+	SESSION_TIMEOUT_COUNTDOWN: 60, // Count down time to session timeout (seconds)
+	SESSION_KEEP_ALIVE_INTERVAL: 0, // Keep alive interval (seconds)
+	RELATIVE_PATH: "", // Relative path
+	IS_LOGGEDIN: true, // Is logged in
+	IS_SYS_ADMIN: false, // Is sys admin
+	CURRENT_USER_NAME: "108321032", // Current user name
+	IS_AUTOLOGIN: false, // Is logged in with option "Auto login until I logout explicitly"
+	TIMEOUT_URL: "logout.php", // Timeout URL // PHP
+	TOKEN_NAME: "token", // Token name
+	API_FILE_TOKEN_NAME: "filetoken", // API file token name
+	API_URL: "api/index.php", // API file name // PHP
+	API_ACTION_NAME: "action", // API action name
+	API_OBJECT_NAME: "object", // API object name
+	API_FIELD_NAME: "field", // API field name
+	API_KEY_NAME: "key", // API key name
+	API_LIST_ACTION: "list", // API list action
+	API_VIEW_ACTION: "view", // API view action
+	API_ADD_ACTION: "add", // API add action
+	API_EDIT_ACTION: "edit", // API edit action
+	API_DELETE_ACTION: "delete", // API delete action
+	API_LOGIN_ACTION: "login", // API login action
+	API_FILE_ACTION: "file", // API file action
+	API_UPLOAD_ACTION: "upload", // API upload action
+	API_JQUERY_UPLOAD_ACTION: "jupload", // API jQuery upload action
+	API_SESSION_ACTION: "session", // API get session action
+	API_LOOKUP_ACTION: "lookup", // API lookup action
+	API_LOOKUP_PAGE: "page", // API lookup page name
+	API_PROGRESS_ACTION: "progress", // API progress action
+	API_EXPORT_CHART_ACTION: "chart", // API export chart action
+	API_JWT_AUTHORIZATION_HEADER: "X-Authorization", // API JWT authorization header
+	API_JWT_TOKEN: "", // API JWT token
+	USE_URL_REWRITE: false, // URL rewrite
+	MULTIPLE_OPTION_SEPARATOR: ",", // Multiple option separator
+	AUTO_SUGGEST_MAX_ENTRIES: 10, // Auto-Suggest max entries
+	IMAGE_FOLDER: "images/", // Image folder
+	SESSION_ID: "xVTYwlwpbWcu3VEJGYGB8VebupXdHerGW72JnwOZuqUTBdeP", // Session ID
+	UPLOAD_THUMBNAIL_WIDTH: 200, // Upload thumbnail width
+	UPLOAD_THUMBNAIL_HEIGHT: 0, // Upload thumbnail height
+	MULTIPLE_UPLOAD_SEPARATOR: ",", // Upload multiple separator
+	IMPORT_FILE_ALLOWED_EXT: "csv,xls,xlsx", // Import file allowed extensions
+	USE_COLORBOX: true,
+	USE_JAVASCRIPT_MESSAGE: false,
+	PROJECT_STYLESHEET_FILENAME: "css/student2.css", // Project style sheet
+	PDF_STYLESHEET_FILENAME: "", // PDF style sheet // PHP
+	EMBED_PDF: false,
+	ANTIFORGERY_TOKEN: "yQ4JiAMOzn9XOIelOXJvZQ..", // PHP
+	CSS_FLIP: false,
+	LAZY_LOAD: true,
+	USE_RESPONSIVE_TABLE: true,
+	RESPONSIVE_TABLE_CLASS: "table-responsive",
+	DEBUG: false,
+	SEARCH_FILTER_OPTION: "Client",
+	OPTION_HTML_TEMPLATE: "<span class=\"ew-option\">{value}</span>"});
+loadjs("jquery/jquery-3.4.1.min.js", "jquery");
+loadjs([
+	"js/mobile-detect.min.js",
+	"js/purify.min.js",
+	"jquery/load-image.all.min.js"
+], "others");
+ew.language = new ew.Language({"addbtn":"新增","cancelbtn":"取消","changepwd":"變更密碼","clickrecaptcha":"請點擊 reCAPTCHA","closebtn":"關閉","confirmbtn":"確認","confirmcancel":"請問您要取消嗎 ?","countselected":"%s 被選取","currentpassword":"目前密碼: ","danger":"Error","deleteconfirmmsg":"您確認要刪除此筆資料嗎?","deletefilterconfirm":"刪除的篩選條件是[ %s ] ?","editbtn":"編修","enterfiltername":"請輸入篩選條件的名稱","enternewpassword":"請輸入新密碼","enteroldpassword":"請輸入舊密碼","enterpassword":"請輸入密碼","enterpwd":"請輸入密碼","enterusername":"請輸入使用者帳號","entervalidatecode":"請輸入驗證碼","entersenderemail":"請輸入寄件者 email","enterpropersenderemail":"寄件者 email 數量超過限制或 email 地址錯誤","enterrecipientemail":"請輸入收件者 email 地址","enterproperrecipientemail":"收件者 email 數量超過限制或 email 地址錯誤","enterproperccemail":"副本收件者 email 數量超過限制或 email 地址錯誤","enterproperbccemail":"密件副本收件者 email 數量超過限制或 email 地址錯誤","entersubject":"請輸入主旨","enteruid":"請輸入使用者帳號","entervalidemail":"請輸入有效的 Email 地址!","exportchart":"Exporting chart: ","exportchartdata":"Exporting chart data","exportcharterror":"Failed to export chart: ","exporting":"正在匯出中, 請稍侯...","exportingchart":"Exporting chart (%c of %t), please wait...","exporttoemailtext":"Email","failedtoexport":"匯出失敗","filtername":"篩選條件名稱","importmessageerror1":"Imported %c of %t records from %f (success: %s, failure: %e)","importmessageerror2":", error: %e","importmessageerror3":"row %i: %d","importmessageerror4":"log file: %l","importmessagemore":"(%s more)","importmessageprogress":"Importing %c of %t records from %f...","importmessageservererror":"Server error %s: %t","importmessagesuccess":"Imported %c of %t records from %f successfully","importmessageuploaderror":"Failed to upload %f: %s","importmessageuploadcomplete":"Upload completed","importmessageuploadprogress":"Uploading...(p%)","importmessagepleaseselect":"Please select file","importmessageincorrectfiletype":"Incorrect file type","importtext":"Import","incorrectemail":"email 格式錯誤","incorrectfield":"欄位不正確","incorrectfloat":"浮點數值格式錯誤","incorrectguid":"不正確的 GUID","incorrectinteger":"整數格式錯誤","incorrectphone":"電話號碼錯誤","incorrectrange":"數值必須介於 %1 與 %2 之間","incorrectregexp":"Regular expression not matched","incorrectssn":"Incorrect social security number","incorrectzip":"Incorrect ZIP code","info":"Information","insertfailed":"新增失敗","invalidrecord":"資料錯誤! 鍵值是空的!","lightboxtitle":" ","lightboxcurrent":"影像 {current} ／ {total}","lightboxprevious":"前一頁","lightboxnext":"下一頁","lightboxclose":"關閉","lightboxxhrerror":"內容載入失敗.","lightboximgerror":"影像載入失敗.","loading":"載入中 ...","login":"登入","maxfilesize":"超過檔案大小限制 (%s bytes).","messageok":"OK","mismatchpassword":"密碼不正確","missingpdfobject":"Missing PDFObject","more":"更多","next":"下一個","noaddrecord":"沒有任何資料被新增","nofieldselected":"沒有任何欄位被選取更新","nochartdata":"No data to display","norecord":"找不到相符資料","norecordselected":"沒有資料被選取","of":"／","overwritebtn":"覆寫","page":"頁次:","passwordstrength":"密碼強度: %p","passwordtoosimple":"您的密碼太簡單了 !","permissionadd":"Add/Copy","permissionadmin":"Admin","permissiondelete":"Delete","permissionedit":"Edit","permissionimport":"Import","permissionlistsearchview":"List/Search/View","permissionlist":"List","permissionlookup":"Lookup","permissionsearch":"Search","permissionview":"View","pleaseselect":"請選取","pleasewait":"請稍待 ...","prev":"前","quicksearchauto":"自動","quicksearchautoshort":"","quicksearchall":"所有的關鍵字","quicksearchallshort":"全部","quicksearchany":"任何關鍵字","quicksearchanyshort":"任何","quicksearchexact":"完全符合","quicksearchexactshort":"符合","record":"資料項次:","recordsperpage":"每頁資料筆數:","reloadbtn":"重新載入","savebtn":"儲存","search":"搜尋","searchbtn":"搜尋","selectbtn":"選取","sendemailsuccess":"Email 寄送成功","sessionwillexpire":"您的 session 將在 %s 秒逾期. 請按 OK 延續您的 session.","sessionexpired":"您的 session 已逾期.","success":"Success","tableorview":"資料表","updatebtn":"更新","uploading":"上傳中...","uploadstart":"開始上傳","uploadcancel":"取消上傳","uploaddelete":"刪除上傳","uploadoverwrite":"是否覆蓋舊檔案?","uploaderrmsgmaxfilesize":"上傳的檔案太大 !","uploaderrmsgminfilesize":"上傳的檔案太小 !","uploaderrmsgacceptfiletypes":"上傳的檔案類型不符合規定 !","uploaderrmsgmaxnumberoffiles":"超過上傳檔案數目上限 !","uploaderrmsgmaxfilelength":"上傳檔名字數超過限制","useradministrator":"管理者","useranonymous":"匿名訪客","userdefault":"預設","userleveladministratorname":"User level name for user level -1 must be 'Administrator'","userlevelanonymousname":"User level name for user level -2 must be 'Anonymous'","userlevelidinteger":"User Level ID must be integer","userleveldefaultname":"User level name for user level 0 must be 'Default'","userlevelidincorrect":"User defined User Level ID must be larger than 0","userlevelnameincorrect":"User defined User Level name cannot be 'Administrator' or 'Default'","valuenotexist":"值不存在錯誤 !","warning":"Warning","wrongfiletype":"檔案格式不支援"});ew.vars = {"login":{"isLoggedIn":true,"currentUserName":"108321032","logoutUrl":"window.location='logout.php';return false;","logoutText":"登出","canLogout":true,"loginUrl":"window.location='login.php';return false;","loginText":"登入","canLogin":false},"languages":{"languages":[{"id":"icon","desc":"icon","selected":false},{"id":"zh-tw","desc":"zh-tw","selected":true}]}};
+ew.ready("jquery", "jquery/jsrender.min.js", "jsrender", ew.renderJsTemplates);
+ew.ready("jsrender", "jquery/jquery.overlayScrollbars.min.js", "scrollbars", ew.initSidebarScrollbars); // Init sidebar scrollbars after rendering menu
+ew.ready("jquery", "jquery/jquery.ui.widget.min.js", "widget");
+ew.loadjs(["moment/moment.min.js", "js/Chart.min.js"], "moment");
+</script>
+<script>
+ew.vars.navbar = {"items":null,"accordion":false};
+</script><script>
+ew.vars.menu = {"items":[{"id":518,"name":"mi_News","text":"系統公告","parentId":-1,"level":0,"href":"News.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":517,"name":"mi_current_semester_opened_list","text":"本學期開設課程","parentId":-1,"level":0,"href":"#","attrs":" onclick=\"return false;\"","target":"","isHeader":false,"active":true,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":298,"name":"mi_MainMenu","text":"主選單","parentId":-1,"level":0,"href":"MainMenu.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":641,"name":"mi_LimeSurveyList","text":"LimeSurvey 問卷調查清單","parentId":-1,"level":0,"href":"LimeSurveyList.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":299,"name":"mi_vehicle_pass_menu","text":"申請汽機車通行證","parentId":-1,"level":0,"href":"vehicle_pass_menu.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":49,"name":"mi_studentDataMtn","text":"個人基本資料維護","parentId":-1,"level":0,"href":"studentDataMtnlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":207,"name":"mci_學生證相片上傳","text":"學生證相片上傳","parentId":-1,"level":0,"href":"https://ccweb.ncnu.edu.tw/student_pic_upload","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":206,"name":"mci_大一新生申請學校宿舍","text":"大一新生申請學校宿舍","parentId":-1,"level":0,"href":"https://ccweb.ncnu.edu.tw/applydorm","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":38,"name":"mci_課程相關","text":"課程相關","parentId":-1,"level":0,"href":"#","attrs":" onclick=\"return false;\"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":[{"id":516,"name":"mi_aspmaker_student_common_rank_courses_view","text":"　我可選修的通識課程","parentId":38,"level":1,"href":"aspmaker_student_common_rank_courses_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":310,"name":"mi_print_semester_course_list","text":"　列印學期課程表","parentId":38,"level":1,"href":"print_semester_course_list.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":3,"name":"mi_aspmaker_student_selected_semester_stat_view","text":"　各學期修課統計及排名","parentId":38,"level":1,"href":"aspmaker_student_selected_semester_stat_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":4,"name":"mi_aspmaker_student_selected_view","text":"　我的修課明細","parentId":38,"level":1,"href":"aspmaker_student_selected_viewlist.php?cmd=resetall","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":17,"name":"mi_applyaddcourse","text":"　人工加選資料","parentId":38,"level":1,"href":"applyaddcourselist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":16,"name":"mi_applyexempt","text":"　申報抵免資料","parentId":38,"level":1,"href":"applyexemptlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":125,"name":"mi_aspmaker_student_exempt_list_view","text":"　審核通過課程抵免清單","parentId":38,"level":1,"href":"aspmaker_student_exempt_list_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":126,"name":"mi_aspmaker_student_waiver_exempt_list_view","text":"　審核通過英文免修清單","parentId":38,"level":1,"href":"aspmaker_student_waiver_exempt_list_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":127,"name":"mi_aspmaker_student_english_qualify","text":"　大學部英文畢業資格","parentId":38,"level":1,"href":"aspmaker_student_english_qualifylist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":124,"name":"mi_aspmaker_student_dept_core_ability_list_view","text":"　我的核心能力分析","parentId":38,"level":1,"href":"aspmaker_student_dept_core_ability_list_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":123,"name":"mi_aspmaker_student_career_ability_list_view","text":"　我的生涯發展能力分析","parentId":38,"level":1,"href":"aspmaker_student_career_ability_list_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false}],"open":false},{"id":514,"name":"mci_UCAN_就業職能平台相關","text":"UCAN 就業職能平台相關","parentId":-1,"level":0,"href":"#","attrs":" onclick=\"return false;\"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":[{"id":414,"name":"mi_ucan_student_view","text":"　UCAN 帳號及診斷資料","parentId":514,"level":1,"href":"ucan_student_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":413,"name":"mi_ucan_student_Holland_view","text":"　職業性格類型分析","parentId":514,"level":1,"href":"ucan_student_Holland_viewlist.php?cmd=resetall","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":410,"name":"mi_ucan_student_dgnExplore_view","text":"　職業興趣探索結果","parentId":514,"level":1,"href":"ucan_student_dgnExplore_viewlist.php?cmd=resetall","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":408,"name":"mi_ucan_student_commOccupation_view","text":"　職場共通職能結果","parentId":514,"level":1,"href":"ucan_student_commOccupation_viewlist.php?cmd=resetall","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":406,"name":"mi_ucan_student_alsOccupation_view","text":"　專業職能-就業途徑分析結果","parentId":514,"level":1,"href":"ucan_student_alsOccupation_viewlist.php?cmd=resetall","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":405,"name":"mi_UCAN_SSO","text":"　SSO 至 UCAN 就業職能平台","parentId":514,"level":1,"href":"UCAN_SSO.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false}],"open":false},{"id":39,"name":"mci_生活輔導相關","text":"生活輔導相關","parentId":-1,"level":0,"href":"#","attrs":" onclick=\"return false;\"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":[{"id":29,"name":"mi_absence","text":"　缺曠課記錄","parentId":39,"level":1,"href":"absencelist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":2,"name":"mi_aspmaker_student_merit_view","text":"　獎懲記錄","parentId":39,"level":1,"href":"aspmaker_student_merit_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":15,"name":"mi_applyleave","text":"　請假資料","parentId":39,"level":1,"href":"applyleavelist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":5,"name":"mi_aspmaker_student_studentwork_view","text":"　暨大工讀記錄","parentId":39,"level":1,"href":"aspmaker_student_studentwork_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":6,"name":"mi_aspmaker_student_trafficrecord_view","text":"　交通違規記錄","parentId":39,"level":1,"href":"aspmaker_student_trafficrecord_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false}],"open":false},{"id":106,"name":"mci_其他系統或服務(SSO)","text":"其他系統或服務(SSO)","parentId":-1,"level":0,"href":"#","attrs":" onclick=\"return false;\"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":[{"id":288,"name":"mci_　全校授權軟體下載系統","text":"　全校授權軟體下載系統","parentId":106,"level":1,"href":"http://ccweb.ncnu.edu.tw/softlib","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":109,"name":"mci_　活動報名系統","text":"　活動報名系統","parentId":106,"level":1,"href":"http://ccweb.ncnu.edu.tw/SLLL","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":113,"name":"mci_　通識講座心得報告上傳","text":"　通識講座心得報告上傳","parentId":106,"level":1,"href":"http://ccweb.ncnu.edu.tw/UploadLectureReport","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":107,"name":"mci_　實驗室安全衛生管理系統","text":"　實驗室安全衛生管理系統","parentId":106,"level":1,"href":"https://phpweb.ncnu.edu.tw/safetylab","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":111,"name":"mci_　重設_Email_CN_密碼","text":"　重設 Email CN 密碼","parentId":106,"level":1,"href":"https://ccweb.ncnu.edu.tw/resetpw","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":114,"name":"mci_　各單位法規及表單","text":"　各單位法規及表單","parentId":106,"level":1,"href":"https://ccweb.ncnu.edu.tw/law","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":404,"name":"mci_　諮商輔導服務系統","text":"　諮商輔導服務系統","parentId":106,"level":1,"href":"https://ccweb.ncnu.edu.tw/coun","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":110,"name":"mci_　學生宿舍包裹掛號待領","text":"　學生宿舍包裹掛號待領","parentId":106,"level":1,"href":"https://ccweb.ncnu.edu.tw/dormMail","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":115,"name":"mci_　文書組包裹掛號待領","text":"　文書組包裹掛號待領","parentId":106,"level":1,"href":"https://ccweb.ncnu.edu.tw/registered_letter","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":108,"name":"mci_　大一新生申請學校宿舍","text":"　大一新生申請學校宿舍","parentId":106,"level":1,"href":"https://ccweb.ncnu.edu.tw/applydorm","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":112,"name":"mci_　學生證相片上傳系統","text":"　學生證相片上傳系統","parentId":106,"level":1,"href":"https://ccweb.ncnu.edu.tw/student_pic_upload","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false}],"open":false},{"id":52,"name":"mi_ncnu_detpt_class_entry_student_stat_view","text":"各系所入學年度學生人數","parentId":-1,"level":0,"href":"ncnu_detpt_class_entry_student_stat_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":117,"name":"mi_DeptQuery","text":"系所學程資訊查詢","parentId":-1,"level":0,"href":"DeptQuerylist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":1,"name":"mi_aspmaker_course_opened_semester_stat_view","text":"各系所歷年開課統計","parentId":-1,"level":0,"href":"aspmaker_course_opened_semester_stat_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":40,"name":"mi_aspmaker_course_opened_detail_view","text":"歷年開設課程明細","parentId":-1,"level":0,"href":"aspmaker_course_opened_detail_viewlist.php?cmd=resetall","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":51,"name":"mi_aspmaker_dept_student_graduation_requirements_M_view","text":"查詢修業規則","parentId":-1,"level":0,"href":"aspmaker_dept_student_graduation_requirements_M_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":57,"name":"mi_ncnu_coremin_detail_view","text":"查詢學士班核心類別","parentId":-1,"level":0,"href":"ncnu_coremin_detail_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":303,"name":"mi_ncnu_coremin_schoolrequire_detail_view","text":"查詢學士班核心課程","parentId":-1,"level":0,"href":"ncnu_coremin_schoolrequire_detail_viewlist.php","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false},{"id":304,"name":"mi_ncnu_coremin_schoolrequire_opened_detail_view","text":"學士班核心課程開課明細","parentId":-1,"level":0,"href":"ncnu_coremin_schoolrequire_opened_detail_viewlist.php?cmd=resetall","attrs":"","target":"","isHeader":false,"active":false,"icon":"","label":"","isNavbarItem":false,"items":null,"open":false}],"accordion":true};
+</script><script>
+var cssfiles = [
+	"css/Chart.min.css",
+	"css/jquery.fileupload.css",
+	"css/jquery.fileupload-ui.css"
+];
+cssfiles.push("colorbox/colorbox.css");
+loadjs(cssfiles, "css");
+var cssjs = [];
+var jqueryjs = [
+	"adminlte3/js/adminlte.js",
+	"bootstrap4/js/bootstrap.bundle.min.js",
+	"jquery/jquery.fileDownload.min.js",
+	"jquery/jqueryfileupload.min.js",
+	"jquery/typeahead.jquery.min.js"
+];
+jqueryjs.push("colorbox/jquery.colorbox-min.js");
+ew.ready(["jquery", "widget", "scrollbars", "moment", "others"], [jqueryjs, "js/ew.js"], "makerjs");
+ew.ready("makerjs", [cssjs, "js/userfn.js"], "head");
+</script>
+<script>
+loadjs("css/tempusdominus-bootstrap-4.css");
+ew.ready("head", ["js/tempusdominus-bootstrap-4.js", "js/ewdatetimepicker.js"], "datetimepicker");
+loadjs.ready("datetimepicker", function() {
+	var $= jQuery;
+	$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+		icons: {
+			time: 'far fa-clock',
+			date: 'far fa-calendar-alt',
+			up: 'fas fa-arrow-up',
+			down: 'fas fa-arrow-down',
+			previous: 'fas fa-chevron-left',
+			next: 'fas fa-chevron-right',
+			today: 'far fa-calendar-check',
+			clear: 'fas fa-trash',
+			close: 'fas fa-times'
+		}
+	});
+});
+</script>
+<script>
+loadjs.ready("head", function() {
+
+	// Global client script
+	// Write your client script here, no need to add script tags.
+
+});
+</script>
+<!-- Navbar -->
+<script type="text/html" id="navbar-menu-items" class="ew-js-template" data-name="navbar" data-seq="10" data-data="navbar" data-method="appendTo" data-target="#ew-navbar">
+{{if items}}
+	{{for items}}
+		<li id="{{:id}}" name="{{:name}}" class="{{if parentId == -1}}nav-item ew-navbar-item{{/if}}{{if isHeader && parentId > -1}}dropdown-header{{/if}}{{if items}} dropdown{{/if}}{{if items && parentId != -1}} dropdown-submenu{{/if}}{{if items && level == 1}} dropdown-hover{{/if}} d-none d-md-block">
+			{{if isHeader && parentId > -1}}
+				{{if icon}}<i class="{{:icon}}"></i>{{/if}}
+				<span>{{:text}}</span>
+			{{else}}
+			<a href="{{:href}}"{{if target}} target="{{:target}}"{{/if}}{{if attrs}}{{:attrs}}{{/if}} class="{{if parentId == -1}}nav-link{{else}}dropdown-item{{/if}}{{if active}} active{{/if}}{{if items}} dropdown-toggle ew-dropdown{{/if}}"{{if items}} role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"{{/if}}>
+				{{if icon}}<i class="{{:icon}}"></i>{{/if}}
+				<span>{{:text}}</span>
+			</a>
+			{{/if}}
+			{{if items}}
+			<ul class="dropdown-menu">
+				{{include tmpl="#navbar-menu-items"/}}
+			</ul>
+			{{/if}}
+		</li>
+	{{/for}}
+{{/if}}
+</script>
+<!-- Sidebar -->
+<script type="text/html" class="ew-js-template" data-name="menu" data-seq="10" data-data="menu" data-target="#ew-menu">
+{{if items}}
+	<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="{{:accordion}}">
+	{{include tmpl="#menu-items"/}}
+	</ul>
+{{/if}}
+</script>
+<script type="text/html" id="menu-items">
+{{if items}}
+	{{for items}}
+		<li id="{{:id}}" name="{{:name}}" class="{{if isHeader}}nav-header{{else}}nav-item{{if items}} has-treeview{{/if}}{{if active}} active current{{/if}}{{if open}} menu-open{{/if}}{{/if}}{{if isNavbarItem}} d-block d-md-none{{/if}}">
+			{{if isHeader}}
+				{{if icon}}<i class="{{:icon}}"></i>{{/if}}
+				<span>{{:text}}</span>
+				{{if label}}
+				<span class="right">
+					{{:label}}
+				</span>
+				{{/if}}
+			{{else}}
+			<a href="{{:href}}" class="nav-link{{if active}} active{{/if}}"{{if target}} target="{{:target}}"{{/if}}{{if attrs}}{{:attrs}}{{/if}}>
+				{{if icon}}<i class="nav-icon {{:icon}}"></i>{{/if}}
+				<p><span class="menu-item-text">{{:text}}</span>
+					{{if items}}
+						<i class="right fas fa-angle-left"></i>
+						{{if label}}
+							<span class="right">
+								{{:label}}
+							</span>
+						{{/if}}
+					{{else}}
+						{{if label}}
+							<span class="right">
+								{{:label}}
+							</span>
+						{{/if}}
+					{{/if}}
+				</p>
+			</a>
+			{{/if}}
+			{{if items}}
+			<ul class="nav nav-treeview"{{if open}} style="display: block;"{{/if}}>
+				{{include tmpl="#menu-items"/}}
+			</ul>
+			{{/if}}
+		</li>
+	{{/for}}
+{{/if}}
+</script>
+<script type="text/html" class="ew-js-template" data-name="languages" data-seq="10" data-data="languages" data-method="prependTo" data-target=".navbar-nav.ml-auto">
+{{for languages}}<li class="nav-item"><a href="#" class="nav-link{{if selected}} active{{/if}} ew-tooltip" title="{{>desc}}" onclick="ew.setLanguage(this);" data-language="{{:id}}">{{:id}}</a></li>{{/for}}</script>
+<script type="text/html" class="ew-js-template" data-name="login" data-seq="10" data-data="login" data-method="appendTo" data-target=".navbar-nav.ml-auto">
+{{if isLoggedIn}}
+<li class="nav-item dropdown text-body">
+	<a class="nav-link" data-toggle="dropdown" href="#">
+		<i class="fas fa-user"></i>
+	</a>
+	<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+		<div class="dropdown-item p-3"><i class="fas fa-user mr-2"></i>{{:currentUserName}}</div>
+		{{if (hasPersonalData || canChangePassword)}}
+		<div class="dropdown-divider"></div>
+		<div class="text-nowrap p-3">
+			{{if hasPersonalData}}
+			<a class="btn btn-default" href="#" onclick="{{:personalDataUrl}}">{{:personalDataText}}</a>
+			{{/if}}
+			{{if canChangePassword}}
+			<a class="btn btn-default" href="#" onclick="{{:changePasswordUrl}}">{{:changePasswordText}}</a>
+			{{/if}}
+		</div>
+		{{/if}}
+		{{if canLogout}}
+		<div class="dropdown-divider"></div>
+		<div class="dropdown-footer p-2 text-right">
+			<a class="btn btn-default" href="#" onclick="{{:logoutUrl}}">{{:logoutText}}</a>
+		</div>
+		{{/if}}
+	</div>
+<li>
+{{else}}
+	{{if canLogin}}
+<li class="nav-item"><a class="nav-link" href="#" onclick="{{:loginUrl}}">{{:loginText}}</a></li>
+	{{/if}}
+{{/if}}
+</script>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name="generator" content="PHPMaker 2020">
+</head>
+<body class="hold-transition layout-fixed" dir="ltr">
+<div class="wrapper ew-layout">
+	<!-- Main Header -->
+	<!-- Navbar -->
+	<nav class="main-header navbar navbar-expand navbar-primary navbar-dark">
+		<!-- Left navbar links -->
+		<ul id="ew-navbar" class="navbar-nav">
+			<li class="nav-item d-block">
+				<a class="nav-link" data-widget="pushmenu" href="#" onclick="return false;"><i class="fas fa-bars"></i></a>
+			</li>
+			<a class="navbar-brand d-none" href="#"  onclick="return false;">
+				<span class="brand-text">暨大學生校務系統簡易版</span>
+			</a>
+		</ul>
+		<!-- Right navbar links -->
+		<ul id="ew-navbar-right" class="navbar-nav ml-auto"></ul>
+	</nav>
+	<!-- /.navbar -->
+	<!-- Main Sidebar Container -->
+	<aside class="main-sidebar sidebar-dark-primary">
+		<!-- Brand Logo //** Note: Only licensed users are allowed to change the logo ** -->
+<!-- ============================================================= 
+
+// modified by wcchien@ncnu.edu.tw 2020/2/1
+//		<a href="#" class="brand-link">
+//					
+
+<span class="brand-text">暨大學生校務系統簡易版</span>
+
+// ============================================================= -->
+		<a href="#" class="brand-link" data-widget="pushmenu" onclick="return false;" >
+			<i class="fas fa-bars"></i> 
+<span class="brand-text">暨大學生校務系統簡易版</span>
+		</a>
+		<!-- Sidebar -->
+		<div class="sidebar">
+			<!-- Sidebar Menu -->
+			<nav id="ew-menu" class="mt-2"></nav>
+			<!-- /.sidebar-menu -->
+		</div>
+		<!-- /.sidebar -->
+	</aside>
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<div class="content-header">
+				<div class="container-fluid">
+				<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">本學期開設課程 <small class="text-muted"></small></h1>
+				</div><!-- /.col -->
+<!-- ============================================================= 			
+
+//
+// modified by wcchien@ncnu.edu.tw 2019/12/18
+//				<div class="col-sm-6">
+// ============================================================= -->
+
+				<div>
+					<ol class="breadcrumb float-sm-right ew-breadcrumbs"><li class="breadcrumb-item" id="ew-breadcrumb1"><a href="News.php" class="ew-home">主畫面</a></li><li class="breadcrumb-item active" id="ew-breadcrumb2"><span id="ew-page-caption">本學期開設課程</span></li></ol>				</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div><!-- /.container-fluid -->
+			</div>
+		<!-- /.content-header -->
+		<!-- Main content -->
+		<section class="content">
+		<div class="container-fluid">
+<script>
+var fcurrent_semester_opened_listlist, currentPageID;
+loadjs.ready("head", function() {
+
+	// Form object
+	currentPageID = ew.PAGE_ID = "list";
+	fcurrent_semester_opened_listlist = currentForm = new ew.Form("fcurrent_semester_opened_listlist", "list");
+	fcurrent_semester_opened_listlist.formKeyCountName = 'key_count';
+	loadjs.done("fcurrent_semester_opened_listlist");
+});
+var fcurrent_semester_opened_listlistsrch;
+loadjs.ready("head", function() {
+
+	// Form object for search
+	fcurrent_semester_opened_listlistsrch = currentSearchForm = new ew.Form("fcurrent_semester_opened_listlistsrch");
+
+	// Validate function for search
+	fcurrent_semester_opened_listlistsrch.validate = function(fobj) {
+		if (!this.validateRequired)
+			return true; // Ignore validation
+		fobj = fobj || this._form;
+		var infix = "";
+
+		// Call Form_CustomValidate event
+		if (!this.Form_CustomValidate(fobj))
+			return false;
+		return true;
+	}
+
+	// Form_CustomValidate
+	fcurrent_semester_opened_listlistsrch.Form_CustomValidate = function(fobj) { // DO NOT CHANGE THIS LINE!
+
+		// Your custom validation code here, return false if invalid.
+		return true;
+	}
+
+	// Use JavaScript validation or not
+	fcurrent_semester_opened_listlistsrch.validateRequired = true;
+
+	// Dynamic selection lists
+	fcurrent_semester_opened_listlistsrch.lists["x_deptid"] = {"page":"current_semester_opened_list_list","field":"deptid","linkField":"deptid","displayFields":["deptid","sname","",""],"parentFields":[],"childFields":[],"filterFields":[],"filterFieldVars":[],"autoFillTargetFields":[],"ajax":true,"template":""};
+	fcurrent_semester_opened_listlistsrch.lists["x_deptid"].options = [];
+	fcurrent_semester_opened_listlistsrch.lists["x_division"] = {"page":"current_semester_opened_list_list","field":"division","linkField":"code","displayFields":["description","","",""],"parentFields":[],"childFields":[],"filterFields":[],"filterFieldVars":[],"autoFillTargetFields":[],"ajax":true,"template":""};
+	fcurrent_semester_opened_listlistsrch.lists["x_division"].options = [{"lf":"B","df":"學士班","df2":"","df3":"","df4":""},{"lf":"G","df":"碩士班","df2":"","df3":"","df4":""},{"lf":"P","df":"博士班","df2":"","df3":"","df4":""}];
+
+	// Filters
+	fcurrent_semester_opened_listlistsrch.filterList = null;
+	loadjs.done("fcurrent_semester_opened_listlistsrch");
+});
+</script>
+<script>
+loadjs.ready("head", function() {
+
+	// Client script
+	// Write your client script here, no need to add script tags.
+
+});
+</script>
+<div class="btn-toolbar ew-toolbar">
+<span class="ew-export-option ew-list-option-separator text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-export-link ew-print"  href="current_semester_opened_listlist.php?export=print" title="友善列印" data-caption="友善列印">友善列印</a><a class="btn btn-default ew-export-link ew-excel"  href="current_semester_opened_listlist.php?export=excel" title="匯出 Excel" data-caption="匯出 Excel">Excel</a><a class="btn btn-default ew-export-link ew-word"  href="current_semester_opened_listlist.php?export=word" title="匯出 Word" data-caption="匯出 Word">Word</a><a class="btn btn-default ew-export-link ew-html"  href="current_semester_opened_listlist.php?export=html" title="匯出 HTML" data-caption="匯出 HTML">HTML</a><a class="btn btn-default ew-export-link ew-csv"  href="current_semester_opened_listlist.php?export=csv" title="匯出 CSV" data-caption="匯出 CSV">CSV</a></div></span><span class="ew-search-option ew-list-option-separator text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-search-toggle active"  href="#" role="button" title="搜尋面版" data-caption="搜尋面版" data-toggle="button" data-form="fcurrent_semester_opened_listlistsrch" aria-pressed="true">搜尋</a><a class="btn btn-default ew-advanced-search"  title="進階搜尋" data-table="current_semester_opened_list" data-caption="進階搜尋" href="#" onclick="return ew.modalDialogShow({lnk:this,btn:'SearchBtn',url:'current_semester_opened_listsrch.php'});">進階搜尋</a></div></span><span class="ew-filter-option fcurrent_semester_opened_listlistsrch ew-list-option-separator" data-name="button"><div class="btn-group btn-group-sm ew-btn-dropdown"><button class="dropdown-toggle btn btn-default" data-toggle="dropdown">篩選條件</button><ul class="dropdown-menu ew-menu"><li><a class="ew-save-filter dropdown-item"  data-form="fcurrent_semester_opened_listlistsrch" href="#" onclick="return false;" href="#">儲存目前的篩選條件</a></li><li><a class="ew-delete-filter dropdown-item"  data-form="fcurrent_semester_opened_listlistsrch" href="#" onclick="return false;" href="#">刪除的篩選條件</a></li></ul></div></span><div class="clearfix"></div>
+</div>
+<form name="fcurrent_semester_opened_listlistsrch" id="fcurrent_semester_opened_listlistsrch" class="form-inline ew-form ew-ext-search-form" action="current_semester_opened_listlist.php">
+<div id="fcurrent_semester_opened_listlistsrch-search-panel" class="ew-search-panel collapse show">
+<input type="hidden" name="cmd" value="search">
+<input type="hidden" name="t" value="current_semester_opened_list">
+	<div class="ew-extended-search">
+	<div id="xsr_1" class="ew-row d-sm-flex">
+		<div id="xsc_courseid" class="ew-cell form-group">
+		<label for="x_courseid" class="ew-search-caption ew-label">課號</label>
+		<span class="ew-search-operator">
+<select name="z_courseid" id="z_courseid" class="custom-select" onchange="ew.searchOperatorChanged(this);">
+<option value="=">=</option>
+<option value="<>">&lt;&gt;</option>
+<option value="<">&lt;</option>
+<option value="<=">&lt;=</option>
+<option value=">">&gt;</option>
+<option value=">=">&gt;=</option>
+<option value="LIKE">包含</option>
+<option value="NOT LIKE">不包含</option>
+<option value="STARTS WITH">起始於</option>
+<option value="ENDS WITH">結束為</option>
+<option value="BETWEEN">介於</option>
+</select>
+</span>
+		<span id="el_current_semester_opened_list_courseid" class="ew-search-field">
+<input type="text" data-table="current_semester_opened_list" data-field="x_courseid" name="x_courseid" id="x_courseid" size="10" maxlength="8" value="" class="form-control">
+</span>
+		<span class="ew-search-and d-none"><label>且</label></span>
+		<span id="el2_current_semester_opened_list_courseid" class="ew-search-field2 d-none">
+<input type="text" data-table="current_semester_opened_list" data-field="x_courseid" name="y_courseid" id="y_courseid" size="10" maxlength="8" value="" class="form-control">
+</span>
+	</div>
+	</div>
+		<div id="xsr_2" class="ew-row d-sm-flex">
+		<div id="xsc_cname" class="ew-cell form-group">
+		<label for="x_cname" class="ew-search-caption ew-label">中文課名</label>
+		<span class="ew-search-operator">
+包含<input type="hidden" name="z_cname" id="z_cname" value="LIKE">
+</span>
+		<span id="el_current_semester_opened_list_cname" class="ew-search-field">
+<input type="text" data-table="current_semester_opened_list" data-field="x_cname" name="x_cname" id="x_cname" size="30" maxlength="50" value="" class="form-control">
+</span>
+	</div>
+	</div>
+		<div id="xsr_3" class="ew-row d-sm-flex">
+		<div id="xsc_deptid" class="ew-cell form-group">
+		<label for="x_deptid" class="ew-search-caption ew-label">開課系所代碼</label>
+		<span class="ew-search-operator">
+&nbsp;<input type="hidden" name="z_deptid" id="z_deptid" value="=">
+</span>
+		<span id="el_current_semester_opened_list_deptid" class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="current_semester_opened_list" data-field="x_deptid" data-value-separator=", " id="x_deptid" name="x_deptid" class="form-control">
+			<option value="">請選取</option>		</select>
+</div>
+</span>
+	</div>
+	</div>
+		<div id="xsr_4" class="ew-row d-sm-flex">
+		<div id="xsc_division" class="ew-cell form-group">
+		<label for="x_division" class="ew-search-caption ew-label">部別</label>
+		<span class="ew-search-operator">
+包含<input type="hidden" name="z_division" id="z_division" value="LIKE">
+</span>
+		<span id="el_current_semester_opened_list_division" class="ew-search-field">
+<div class="input-group">
+	<select class="custom-select ew-custom-select" data-table="current_semester_opened_list" data-field="x_division" data-value-separator=", " id="x_division" name="x_division" class="form-control">
+			<option value="">請選取</option>		</select>
+</div>
+</span>
+	</div>
+	</div>
+		<div id="xsr_5" class="ew-row d-sm-flex">
+		<div id="xsc_grade" class="ew-cell form-group">
+		<label for="x_grade" class="ew-search-caption ew-label">年級</label>
+		<span class="ew-search-operator">
+<select name="z_grade" id="z_grade" class="custom-select" onchange="ew.searchOperatorChanged(this);">
+<option value="=">=</option>
+<option value="<>">&lt;&gt;</option>
+<option value="<">&lt;</option>
+<option value="<=">&lt;=</option>
+<option value=">">&gt;</option>
+<option value=">=">&gt;=</option>
+<option value="LIKE">包含</option>
+<option value="NOT LIKE">不包含</option>
+<option value="STARTS WITH">起始於</option>
+<option value="ENDS WITH">結束為</option>
+<option value="BETWEEN">介於</option>
+</select>
+</span>
+		<span id="el_current_semester_opened_list_grade" class="ew-search-field">
+<input type="text" data-table="current_semester_opened_list" data-field="x_grade" name="x_grade" id="x_grade" size="30" maxlength="4" value="" class="form-control">
+</span>
+		<span class="ew-search-and d-none"><label>且</label></span>
+		<span id="el2_current_semester_opened_list_grade" class="ew-search-field2 d-none">
+<input type="text" data-table="current_semester_opened_list" data-field="x_grade" name="y_grade" id="y_grade" size="30" maxlength="4" value="" class="form-control">
+</span>
+	</div>
+	</div>
+		<div id="xsr_6" class="ew-row d-sm-flex">
+		<div id="xsc_teachers" class="ew-cell form-group">
+		<label for="x_teachers" class="ew-search-caption ew-label">開課教師</label>
+		<span class="ew-search-operator">
+包含<input type="hidden" name="z_teachers" id="z_teachers" value="LIKE">
+</span>
+		<span id="el_current_semester_opened_list_teachers" class="ew-search-field">
+<input type="text" data-table="current_semester_opened_list" data-field="x_teachers" name="x_teachers" id="x_teachers" size="30" maxlength="42" value="" class="form-control">
+</span>
+	</div>
+	</div>
+		<div id="xsr_7" class="ew-row d-sm-flex">
+		<div id="xsc_not_accessible" class="ew-cell form-group">
+		<label for="x_not_accessible" class="ew-search-caption ew-label">非無障礙教室</label>
+		<span class="ew-search-operator">
+包含<input type="hidden" name="z_not_accessible" id="z_not_accessible" value="LIKE">
+</span>
+		<span id="el_current_semester_opened_list_not_accessible" class="ew-search-field">
+<input type="text" data-table="current_semester_opened_list" data-field="x_not_accessible" name="x_not_accessible" id="x_not_accessible" size="30" maxlength="1" value="" class="form-control">
+</span>
+	</div>
+	</div>
+		<div id="xsr_8" class="ew-row d-sm-flex">
+	<button class="btn btn-primary" name="btn-submit" id="btn-submit" type="submit">搜尋</button>
+</div>
+	</div><!-- /.ew-extended-search -->
+</div><!-- /.ew-search-panel -->
+</form>
+<div class="ew-message-dialog"></div><div class="card ew-card ew-grid current_semester_opened_list">
+<div class="card-header ew-grid-upper-panel">
+<form name="ew-pager-form" class="form-inline ew-form ew-pager-form" action="current_semester_opened_listlist.php">
+<div class="ew-pager">
+	<span>頁次:&nbsp;</span>
+	<div class="ew-prev-next">
+		<div class="input-group input-group-sm">
+			<div class="input-group-prepend">
+				<!-- first page button -->
+				<a class="btn btn-default" title="第一頁" href="current_semester_opened_listlist.php?start=1"><i class="icon-first ew-icon"></i></a>
+				<!-- previous page button -->
+				<a class="btn btn-default" title="前一頁" href="current_semester_opened_listlist.php?start=661"><i class="icon-prev ew-icon"></i></a>
+			</div>
+			<!-- current page number --><input class="form-control" type="text" data-pagesize="20" data-pagecount="86" name="pageno" value="35">
+			<div class="input-group-append">
+				<!-- next page button -->
+				<a class="btn btn-default" title="下一頁" href="current_semester_opened_listlist.php?start=701"><i class="icon-next ew-icon"></i></a>
+				<!-- last page button -->
+				<a class="btn btn-default" title="最後頁" href="current_semester_opened_listlist.php?start=1701"><i class="icon-last ew-icon"></i></a>
+			</div>
+		</div>
+	</div>
+	<span>&nbsp;／&nbsp;86</span>
+	<div class="clearfix"></div>
+</div><div class="ew-pager ew-rec">
+	<span>資料項次: 681 ～ 700 ／ 1717</span>
+</div><div class="ew-pager">
+<select name="recperpage" class="custom-select custom-select-sm ew-tooltip" title="每頁資料筆數:" onchange="this.form.submit();">
+<option value="20" selected>20</option><option value="50">50</option><option value="ALL">全部資料</option>
+</select>
+</div></form>
+<div class="ew-list-other-options">
+</div>
+<div class="clearfix"></div>
+</div>
+<form name="fcurrent_semester_opened_listlist" id="fcurrent_semester_opened_listlist" class="form-inline ew-form ew-list-form" action="current_semester_opened_listlist.php" method="post">
+<input type="hidden" name="token" value="yQ4JiAMOzn9XOIelOXJvZQ..">
+<input type="hidden" name="t" value="current_semester_opened_list">
+<div id="gmp_current_semester_opened_list" class="table-responsive card-body ew-grid-middle-panel">
+<table id="tbl_current_semester_opened_listlist" class="table ew-table"><!-- .ew-table -->
+<thead>
+	<tr class="ew-table-header">
+<th class="ew-list-option-header text-nowrap" data-name="button">&nbsp;</th>			<th data-name="year" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=year&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_year" class="current_semester_opened_list_year">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">學期</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="courseid" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=courseid&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_courseid" class="current_semester_opened_list_courseid">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">課號</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="_class" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=class&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list__class" class="current_semester_opened_list__class">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">班別</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="cname" class="ew-table-header-cell" style="width: 160px;"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=cname&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_cname" class="current_semester_opened_list_cname">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">中文課名</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="deptid" class="ew-table-header-cell" style="width: 80px;"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=deptid&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_deptid" class="current_semester_opened_list_deptid">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">開課系所代碼</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="division" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=division&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_division" class="current_semester_opened_list_division">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">部別</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="grade" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=grade&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_grade" class="current_semester_opened_list_grade">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">年級</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="teachers" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=teachers&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_teachers" class="current_semester_opened_list_teachers">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">開課教師</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="place" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=place&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_place" class="current_semester_opened_list_place">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">地點</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="not_accessible" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=not_accessible&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_not_accessible" class="current_semester_opened_list_not_accessible">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">非無障礙教室</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="time" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=time&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_time" class="current_semester_opened_list_time">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">時間</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="limit" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=limit&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_limit" class="current_semester_opened_list_limit">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">人數上限</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="seleced_no" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=seleced_no&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_seleced_no" class="current_semester_opened_list_seleced_no">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">選修人數</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+				<th data-name="left_quotas" class="ew-table-header-cell"><div class="ew-pointer" onclick="ew.sort(event, 'current_semester_opened_listlist.php?order=left_quotas&amp;ordertype=ASC', 2);"><div id="elh_current_semester_opened_list_left_quotas" class="current_semester_opened_list_left_quotas">
+			<div class="ew-table-header-btn"><span class="ew-table-header-caption">剩餘名額</span><span class="ew-table-header-sort"></span></div>
+		</div></div></th>
+		</tr>
+</thead>
+<tbody>
+	<tr  data-rowindex="1" id="r1_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=e',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el1_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el1_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el1_current_semester_opened_list__class">
+<span>e</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el1_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el1_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el1_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el1_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el1_current_semester_opened_list_teachers">
+<span>施明祥</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el1_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el1_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el1_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el1_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el1_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el1_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="2" id="r2_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=f',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el2_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el2_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el2_current_semester_opened_list__class">
+<span>f</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el2_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el2_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el2_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el2_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el2_current_semester_opened_list_teachers">
+<span>劉祐興</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el2_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el2_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el2_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el2_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el2_current_semester_opened_list_seleced_no">
+<span>1</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el2_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="3" id="r3_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=g',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el3_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el3_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el3_current_semester_opened_list__class">
+<span>g</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el3_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el3_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el3_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el3_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el3_current_semester_opened_list_teachers">
+<span>李文娟</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el3_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el3_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el3_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el3_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el3_current_semester_opened_list_seleced_no">
+<span>2</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el3_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="4" id="r4_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=h',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el4_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el4_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el4_current_semester_opened_list__class">
+<span>h</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el4_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el4_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el4_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el4_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el4_current_semester_opened_list_teachers">
+<span>郭昌宏</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el4_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el4_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el4_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el4_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el4_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el4_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="5" id="r5_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=i',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el5_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el5_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el5_current_semester_opened_list__class">
+<span>i</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el5_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el5_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el5_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el5_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el5_current_semester_opened_list_teachers">
+<span>陳谷汎</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el5_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el5_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el5_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el5_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el5_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el5_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="6" id="r6_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=j',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el6_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el6_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el6_current_semester_opened_list__class">
+<span>j</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el6_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el6_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el6_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el6_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el6_current_semester_opened_list_teachers">
+<span>彭逸凡</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el6_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el6_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el6_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el6_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el6_current_semester_opened_list_seleced_no">
+<span>3</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el6_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="7" id="r7_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=k',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el7_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el7_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el7_current_semester_opened_list__class">
+<span>k</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el7_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el7_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el7_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el7_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el7_current_semester_opened_list_teachers">
+<span>侯建元</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el7_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el7_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el7_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el7_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el7_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el7_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="8" id="r8_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=l',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el8_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el8_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el8_current_semester_opened_list__class">
+<span>l</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el8_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el8_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el8_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el8_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el8_current_semester_opened_list_teachers">
+<span>陳皆儒</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el8_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el8_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el8_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el8_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el8_current_semester_opened_list_seleced_no">
+<span>1</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el8_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="9" id="r9_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220091&amp;_class=m',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el9_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el9_current_semester_opened_list_courseid">
+<span>220091</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el9_current_semester_opened_list__class">
+<span>m</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el9_current_semester_opened_list_cname">
+<span>專題研究(三)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el9_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el9_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el9_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el9_current_semester_opened_list_teachers">
+<span>王國隆</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el9_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el9_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el9_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el9_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el9_current_semester_opened_list_seleced_no">
+<span>3</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el9_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="10" id="r10_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220093&amp;_class=0',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el10_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el10_current_semester_opened_list_courseid">
+<span>220093</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el10_current_semester_opened_list__class">
+<span>0</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el10_current_semester_opened_list_cname">
+<span>生態工法規劃與設計</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el10_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el10_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el10_current_semester_opened_list_grade">
+<span>2</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el10_current_semester_opened_list_teachers">
+<span>羅慶瑞</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el10_current_semester_opened_list_place">
+<span>科二414</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el10_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el10_current_semester_opened_list_time">
+<span>1efg</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el10_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el10_current_semester_opened_list_seleced_no">
+<span>33</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el10_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="11" id="r11_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220097&amp;_class=a',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el11_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el11_current_semester_opened_list_courseid">
+<span>220097</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el11_current_semester_opened_list__class">
+<span>a</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el11_current_semester_opened_list_cname">
+<span>專題研究(四)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el11_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el11_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el11_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el11_current_semester_opened_list_teachers">
+<span>蔡勇斌</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el11_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el11_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el11_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el11_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el11_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el11_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="12" id="r12_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220097&amp;_class=b',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el12_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el12_current_semester_opened_list_courseid">
+<span>220097</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el12_current_semester_opened_list__class">
+<span>b</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el12_current_semester_opened_list_cname">
+<span>專題研究(四)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el12_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el12_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el12_current_semester_opened_list_grade">
+<span>3</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el12_current_semester_opened_list_teachers">
+<span>陳谷汎</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el12_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el12_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el12_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el12_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el12_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el12_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="13" id="r13_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=a',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el13_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el13_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el13_current_semester_opened_list__class">
+<span>a</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el13_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el13_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el13_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el13_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el13_current_semester_opened_list_teachers">
+<span>周榮昌</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el13_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el13_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el13_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el13_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el13_current_semester_opened_list_seleced_no">
+<span>1</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el13_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="14" id="r14_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=b',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el14_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el14_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el14_current_semester_opened_list__class">
+<span>b</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el14_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el14_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el14_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el14_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el14_current_semester_opened_list_teachers">
+<span>劉一中</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el14_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el14_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el14_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el14_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el14_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el14_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="15" id="r15_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=c',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el15_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el15_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el15_current_semester_opened_list__class">
+<span>c</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el15_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el15_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el15_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el15_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el15_current_semester_opened_list_teachers">
+<span>蔡勇斌</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el15_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el15_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el15_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el15_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el15_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el15_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="16" id="r16_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=d',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el16_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el16_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el16_current_semester_opened_list__class">
+<span>d</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el16_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el16_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el16_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el16_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el16_current_semester_opened_list_teachers">
+<span>劉家男</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el16_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el16_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el16_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el16_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el16_current_semester_opened_list_seleced_no">
+<span>4</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el16_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="17" id="r17_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=e',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el17_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el17_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el17_current_semester_opened_list__class">
+<span>e</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el17_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el17_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el17_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el17_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el17_current_semester_opened_list_teachers">
+<span>施明祥</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el17_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el17_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el17_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el17_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el17_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el17_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="18" id="r18_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=f',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el18_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el18_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el18_current_semester_opened_list__class">
+<span>f</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el18_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el18_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el18_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el18_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el18_current_semester_opened_list_teachers">
+<span>劉祐興</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el18_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el18_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el18_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el18_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el18_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el18_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="19" id="r19_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=g',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el19_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el19_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el19_current_semester_opened_list__class">
+<span>g</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el19_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el19_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el19_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el19_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el19_current_semester_opened_list_teachers">
+<span>李文娟</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el19_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el19_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el19_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el19_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el19_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el19_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+	<tr  data-rowindex="20" id="r20_current_semester_opened_list" data-rowtype="1">
+<td class="ew-list-option-body text-nowrap" data-name="button"><div class="btn-group btn-group-sm ew-btn-group"><a class="btn btn-default ew-row-link ew-view"  title="檢視" data-table="current_semester_opened_list" data-caption="檢視" href="#" onclick="return ew.modalDialogShow({lnk:this,url:'current_semester_opened_listview.php?showdetail=&amp;year=1091&amp;courseid=220101&amp;_class=h',btn:null});">檢視</a></div></td>			<td data-name="year" >
+<span id="el20_current_semester_opened_list_year">
+<span>1091</span>
+</span>
+</td>
+				<td data-name="courseid" >
+<span id="el20_current_semester_opened_list_courseid">
+<span>220101</span>
+</span>
+</td>
+				<td data-name="_class" >
+<span id="el20_current_semester_opened_list__class">
+<span>h</span>
+</span>
+</td>
+				<td data-name="cname"  style="width: 160px;">
+<span id="el20_current_semester_opened_list_cname">
+<span>專題研究(五)</span>
+</span>
+</td>
+				<td data-name="deptid"  style="width: 80px;">
+<span id="el20_current_semester_opened_list_deptid">
+<span>22, 土木系</span>
+</span>
+</td>
+				<td data-name="division" >
+<span id="el20_current_semester_opened_list_division">
+<span>學士班</span>
+</span>
+</td>
+				<td data-name="grade" >
+<span id="el20_current_semester_opened_list_grade">
+<span>4</span>
+</span>
+</td>
+				<td data-name="teachers" >
+<span id="el20_current_semester_opened_list_teachers">
+<span>郭昌宏</span>
+</span>
+</td>
+				<td data-name="place" >
+<span id="el20_current_semester_opened_list_place">
+<span>教師研究室</span>
+</span>
+</td>
+				<td data-name="not_accessible" >
+<span id="el20_current_semester_opened_list_not_accessible">
+<span></span>
+</span>
+</td>
+				<td data-name="time" >
+<span id="el20_current_semester_opened_list_time">
+<span>另訂</span>
+</span>
+</td>
+				<td data-name="limit" >
+<span id="el20_current_semester_opened_list_limit">
+<span>0.00</span>
+</span>
+</td>
+				<td data-name="seleced_no" >
+<span id="el20_current_semester_opened_list_seleced_no">
+<span>0</span>
+</span>
+</td>
+				<td data-name="left_quotas" >
+<span id="el20_current_semester_opened_list_left_quotas">
+<span>999.00</span>
+</span>
+</td>
+		</tr>
+</tbody>
+</table><!-- /.ew-table -->
+</div><!-- /.ew-grid-middle-panel -->
+<input type="hidden" name="action" id="action" value="">
+</form><!-- /.ew-list-form -->
+<div class="card-footer ew-grid-lower-panel">
+<form name="ew-pager-form" class="form-inline ew-form ew-pager-form" action="current_semester_opened_listlist.php">
+<div class="ew-pager">
+	<span>頁次:&nbsp;</span>
+	<div class="ew-prev-next">
+		<div class="input-group input-group-sm">
+			<div class="input-group-prepend">
+				<!-- first page button -->
+				<a class="btn btn-default" title="第一頁" href="current_semester_opened_listlist.php?start=1"><i class="icon-first ew-icon"></i></a>
+				<!-- previous page button -->
+				<a class="btn btn-default" title="前一頁" href="current_semester_opened_listlist.php?start=661"><i class="icon-prev ew-icon"></i></a>
+			</div>
+			<!-- current page number --><input class="form-control" type="text" data-pagesize="20" data-pagecount="86" name="pageno" value="35">
+			<div class="input-group-append">
+				<!-- next page button -->
+				<a class="btn btn-default" title="下一頁" href="current_semester_opened_listlist.php?start=701"><i class="icon-next ew-icon"></i></a>
+				<!-- last page button -->
+				<a class="btn btn-default" title="最後頁" href="current_semester_opened_listlist.php?start=1701"><i class="icon-last ew-icon"></i></a>
+			</div>
+		</div>
+	</div>
+	<span>&nbsp;／&nbsp;86</span>
+	<div class="clearfix"></div>
+</div><div class="ew-pager ew-rec">
+	<span>資料項次: 681 ～ 700 ／ 1717</span>
+</div><div class="ew-pager">
+<select name="recperpage" class="custom-select custom-select-sm ew-tooltip" title="每頁資料筆數:" onchange="this.form.submit();">
+<option value="20" selected>20</option><option value="50">50</option><option value="ALL">全部資料</option>
+</select>
+</div></form>
+<div class="ew-list-other-options">
+</div>
+<div class="clearfix"></div>
+</div>
+</div><!-- /.ew-grid -->
+<script>
+loadjs.ready("load", function() {
+
+	// Startup script
+	// Write your table-specific startup script here
+	// console.log("page loaded");
+
+});
+</script>
+				</div><!-- /.container-fluid -->
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+	<!-- Main Footer -->
+	<footer class="main-footer">
+		<!-- ** Note: Only licensed users are allowed to change the copyright statement. ** -->
+		<div class="ew-footer-text">系統開發：計網中心系統組 wcchien@ncnu.edu.tw</div>
+		<div class="float-right d-none d-sm-inline-block"></div>
+	</footer>
+</div>
+<!-- ./wrapper -->
+<!-- template upload (for file upload) -->
+<script id="template-upload" type="text/html">
+{{for files}}
+	<tr class="template-upload">
+		<td>
+			<span class="preview"></span>
+		</td>
+		<td>
+			<p class="name">{{:name}}</p>
+			<p class="error text-danger"></p>
+		</td>
+		<td>
+			<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar bg-success" style="width: 0%;"></div></div>
+		</td>
+		<td>
+			{{if !#index && !~root.options.autoUpload}}
+			<button class="btn btn-default btn-sm start" disabled>開始上傳</button>
+			{{/if}}
+			{{if !#index}}
+			<button class="btn btn-default btn-sm cancel">取消上傳</button>
+			{{/if}}
+		</td>
+	</tr>
+{{/for}}
+</script>
+<!-- template download (for file upload) -->
+<script id="template-download" type="text/html">
+{{for files}}
+	<tr class="template-download">
+		<td>
+			<span class="preview">
+				{{if !exists}}
+				<span class="text-danger">找不到檔案 !</span>
+				{{else url && extension == "pdf"}}
+				<div class="ew-pdfobject" data-url="{{>url}}" style="width: 200px;"></div>
+				{{else url && extension == "mp3"}}
+				<audio controls><source type="audio/mpeg" src="{{>url}}"></audio>
+				{{else url && extension == "mp4"}}
+				<video controls><source type="video/mp4" src="{{>url}}"></video>
+				{{else thumbnailUrl}}
+				<a href="{{>url}}" title="{{>name}}" download="{{>name}}" class="ew-lightbox"><img src="{{>thumbnailUrl}}"></a>
+				{{/if}}
+			</span>
+		</td>
+		<td>
+			<p class="name">
+				{{if !exists}}
+				<span class="text-muted">{{:name}}</span>
+				{{else url && thumbnailUrl && extension != "pdf" && extension != "mp3" && extension != "mp4"}}
+				<a href="{{>url}}" title="{{>name}}" download="{{>name}}" class="ew-lightbox">{{:name}}</a>
+				{{else url}}
+				<a href="{{>url}}" title="{{>name}}" download="{{>name}}">{{:name}}</a>
+				{{else}}
+				<span>{{:name}}</span>
+				{{/if}}
+			</p>
+			{{if error}}
+			<div><span class="error text-danger">{{:error}}</span></div>
+			{{/if}}
+		</td>
+		<td>
+			<span class="size">{{:~root.formatFileSize(size)}}</span>
+		</td>
+		<td>
+			{{if !~root.options.readOnly && deleteUrl}}
+			<button class="btn btn-default btn-sm delete" data-type="{{>deleteType}}" data-url="{{>deleteUrl}}">刪除上傳</button>
+			{{else !~root.options.readOnly}}
+			<button class="btn btn-default btn-sm cancel">取消上傳</button>
+			{{/if}}
+		</td>
+	</tr>
+{{/for}}
+</script>
+<!-- modal dialog -->
+<div id="ew-modal-dialog" class="modal" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title"></h4></div><div class="modal-body"></div><div class="modal-footer"></div></div></div></div>
+<!-- import dialog -->
+<div id="ew-import-dialog" class="modal" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title"></h4></div>
+<div class="modal-body">
+<div class="custom-file">
+	<input type="file" class="custom-file-input" id="importfiles" title=" " name="importfiles[]" multiple lang="zh-tw">
+	<label class="custom-file-label ew-file-label" for="importfiles">選取檔案</label>
+</div>
+<div class="message d-none mt-3"></div>
+<div class="progress d-none mt-3"><div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div></div>
+</div>
+<div class="modal-footer"><button type="button" class="btn btn-default ew-close-btn" data-dismiss="modal">關閉</button></div></div></div></div>
+<!-- message box -->
+<div id="ew-message-box" class="modal" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-primary ew-btn" data-dismiss="modal">OK</button></div></div></div></div>
+<!-- prompt -->
+<div id="ew-prompt" class="modal" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-primary ew-btn">OK</button><button type="button" class="btn btn-default ew-btn" data-dismiss="modal">取消</button></div></div></div></div>
+<!-- session timer -->
+<div id="ew-timer" class="modal" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-primary ew-btn" data-dismiss="modal">OK</button></div></div></div></div>
+<!-- tooltip -->
+<div id="ew-tooltip"></div>
+<!-- drill down -->
+<div id="ew-drilldown-panel"></div>
+<script>
+
+// User event handlers
+ew.ready(ew.bundleIds, "js/userevt.js", "load", function() {
+
+	// Global startup script
+	$("body").data("lte.layout",{}),$("body, .wrapper").css("overflow-x","auto");
+});
+</script>
+</body>
+</html>
