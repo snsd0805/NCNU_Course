@@ -62,8 +62,14 @@ var courseTable = {
                 <th style='text-align: center;' scope='row'>
                     {{ hour+7 }}~{{ hour+8 }}  <br> z
                 </th>
-                <td style='text-align: center; background-color: #1abc9c;' colspan='5'>
-                    中午休息時間
+                
+                <td style='text-align: center; background-color: #1abc9c;'
+                    v-for="week in 5">
+                    <course-div 
+                        v-if="exist(week+'z')"
+                        v-bind:course="courses[week+'z']"
+                        v-on:remove-course="removeCourseHandler"
+                    ></course-div>
                 </td>
             </template>
             <template v-else>
