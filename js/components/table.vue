@@ -17,7 +17,6 @@ var courseTable = {
     props: ['select_c'],
     data: function(){
         return {
-            'tableBody': "<tbody>",
             'courses': {},
         }
     },
