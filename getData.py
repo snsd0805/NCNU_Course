@@ -87,9 +87,9 @@ def extractGeneralCourse():
                 courseObjList[number+classNum]['department'] = major
         progress.update(1)
 
-# curlAllCoursePage()
+curlAllCoursePage()
 extractAllCourse()
-# curlGeneralCoursePage()
+curlGeneralCoursePage()
 extractGeneralCourse()
 
 out = []
@@ -99,5 +99,5 @@ for item in courseObjList:
     out.append(courseObjList[item])
 
 with open('output.json', 'w') as fp:
-    fp.write(json.dumps(out))
+    fp.write(json.dumps(out, ensure_ascii=False))
 print(count)
