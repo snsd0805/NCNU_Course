@@ -39,3 +39,5 @@ pip install -r requirements.txt
 登入教務系統取得個人登入cookie，貼到`getData.py` line 11即可執行。
 
 過程中取得所有課程相關html資料，整理過後輸出`output.json`
+
+※ 注意： 部份通識課程會有教務系統沒有提供領域的狀況，因此領域仍然為「99, 通識」，必須手動搜尋選課系統並且直接修改`output.json`
