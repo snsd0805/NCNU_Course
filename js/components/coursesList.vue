@@ -52,11 +52,11 @@ var coursesList = {
             <td>
                 <div class="container">
                     <div class="row">
-                        <b>{{ course.name }}</b>
+                        <b>{{ course.name }} (<a v-bind:href="'https://ccweb.ncnu.edu.tw/student/aspmaker_course_opened_detail_viewview.php?showdetail=&year=1091&courseid='+ course.number +'&_class=' + course.class + '&modal=0'">詳</a>)</b>
                     </div>
                     <div class="row">
                         <div class="col-sm-8">
-                            {{ course.teacher }} ‧ {{ course.time }}
+                            {{ course.teacher }} ‧ {{ course.time }} 
                         </div>
                         <div class="col-sm-4">
                             <button v-if="isOK(course)" type="button" v-on:click="$emit('add-course', course)" class="btn btn-primary">
