@@ -18,6 +18,7 @@ var courseTable = {
     data: function(){
         return {
             'courses': {},
+            'existWeekend': false
         }
     },
     methods: {
@@ -37,8 +38,17 @@ var courseTable = {
     watch: {
         'select_c': function(){
             this.courses = {}
+            var weekendLock = false
+
             for(var c of this.select_c){
                 this.courses[c.time] = c.name
+
+                if(c.time[0]==6 || c.time[0]==7){
+                    weekendLock = true
+                }
+            }
+            if(weekendLock){
+                this.existWeekend = true
             }
         }
     },
