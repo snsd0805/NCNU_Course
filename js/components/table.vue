@@ -49,6 +49,8 @@ var courseTable = {
             }
             if(weekendLock){
                 this.existWeekend = true
+            }else{
+                this.existWeekend = false
             }
         }
     },
