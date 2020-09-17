@@ -64,6 +64,10 @@ var courseTable = {
         <th scope="col" class="col-md-2">三</th>
         <th scope="col" class="col-md-2">四</th>
         <th scope="col" class="col-md-2">五</th>
+        <template v-if='existWeekend'>
+            <th scope="col" class="col-md-1">六</th>
+            <th scope="col" class="col-md-1">日</th>
+        </template>
         </tr>
     </thead>
     <tbody>
@@ -74,7 +78,7 @@ var courseTable = {
                 </th>
                 
                 <td style='text-align: center; background-color: #1abc9c;'
-                    v-for="week in 5">
+                    v-for="week in (existWeekend)?7:5">
                     <course-div 
                         v-if="exist(week+'z')"
                         v-bind:course="courses[week+'z']"
@@ -87,7 +91,7 @@ var courseTable = {
                     {{ hour+7 }} ~ {{ hour+8 }}   <br>
                     {{ String.fromCharCode(97+((hour<5)?(hour-1):(hour-2))) }}
                 </th>
-                <td v-for='week in 5'>
+                <td v-for='week in (existWeekend)?7:5'>
                     <course-div 
                         v-if="exist(week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2))))"
                         v-bind:course="courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))]"
