@@ -5,6 +5,7 @@ var vm = new Vue({
         'selectCourses': [],
         'departments': [],
         'selectDepartment': '',
+        'foundName': "",
     },
     mounted() {
         axios
@@ -42,6 +43,9 @@ var vm = new Vue({
         },
         'select': function(department){
             this.selectDepartment = department
+        },
+        'founded': function(courseName){
+            this.foundName = courseName
         },
         'addCourse': function(course){
             var time = this.getTime(course.time)

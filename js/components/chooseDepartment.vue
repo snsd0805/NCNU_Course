@@ -2,7 +2,8 @@ var chooseDepartment = {
     props: ['departments', 'selected'],
     data: function(){
         return {
-            initSelect: this.selected
+            initSelect: this.selected,
+            initFounded: "",
         }
     },
     watch: {
@@ -11,10 +12,17 @@ var chooseDepartment = {
         },
         'initSelect': function(){
             this.$emit("selectok", this.initSelect)
+        },
+        'initFounded': function(){
+            this.$emit("foundedok", this.initFounded)
         }
     },
     template: `
+    
     <div>
+        <h5>1. 「課程名稱」直接搜尋</h5>
+        <input class="form-control" type='text' v-model='initFounded'>
+        <br>或<br><br>
         <h5>1. 選擇類別</h5>
         <select class="custom-select mr-sm-2" v-model="initSelect">
             <option v-for="(item, index) in departments" :key="index" 
