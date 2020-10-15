@@ -1,6 +1,8 @@
 # 暨大排課表
 只是一個Vue練習題目，[DEMO](http://163.23.148.126/ncnu_course/)，建議用電腦開
 
+![](https://i.imgur.com/Zbyall6.png)
+
 # 題目
 暨大生在學期前在苦惱選課的時候都會使用 @x3388638 學長開發的 [自己的課表自己排 2.0](https://github.com/x3388638/KeBiau) 
 
