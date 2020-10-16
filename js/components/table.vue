@@ -58,7 +58,7 @@ var courseTable = {
         'course-div': courseDiv
     },
     template: `
-<table class="table table-bordered">
+<table class="table table-bordered" style="table-layout: fixed;word-wrap: break-word;">
     <thead>
         <th scope="col" class="col-md-1">#</th>
         <th scope="col" class="col-md-2">一</th>
