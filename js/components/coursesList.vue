@@ -57,7 +57,8 @@ var coursesList = {
     <div>
     <h5>2. 安排課程</h5>
     <p style="color: orange" v-if="find_name"> ※ 已套用「名稱」搜尋： <br>{{find_name}}</p>
-    <table class="table table-striped table-bordered">
+    <div style="width:275px;height:500px;overflow:auto">
+	<table class="table table-striped table-bordered">
         <template v-if="find_name">
             <tr v-for="(course, index) in foundedCourses" :key="index">
                 <td>
@@ -103,6 +104,7 @@ var coursesList = {
             </tr>
         </template>
     </table>
+	</div>
     </div>
     `
 }
