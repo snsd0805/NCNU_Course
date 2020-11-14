@@ -33,13 +33,18 @@ var coursesList = {
                 }
             }
             return true
+        },
+        'log': function(name, data){
+            console.log(name, data)
         }
     },
     watch: {
         'selected_c': function(){
             var temp = []
             for(var c of this.selected_c){
-                temp.push(c.time)
+                if(c.temp==false){
+                    temp.push(c.time)
+                }
             }
             this.selectedTime = temp
         },
@@ -60,7 +65,8 @@ var coursesList = {
 		<div style="width:275px;height:500px;overflow:auto">
 			<table class="table table-striped table-bordered">
 				<template v-if="find_name">
-					<tr v-for="(course, index) in foundedCourses" :key="index">
+                    <tr v-for="(course, index) in foundedCourses" :key="index"
+                    v-on:mouseenter="$emit('show-temp', course)" v-on:mouseleave="$emit('delete-temp', course)">
 						<td>
 							<div class="container">
 								<div class="row">
@@ -83,7 +89,8 @@ var coursesList = {
 				</template>
 				<template v-else>
 					<tr v-for="(course, index) in courses" :key="index"
-						v-if="course.department == selected_d">
+                        v-if="course.department == selected_d"
+                        v-on:mouseenter="$emit('show-temp', course)" v-on:mouseleave="$emit('delete-temp', course)">
 						<td>
 							<div class="container">
 								<div class="row">

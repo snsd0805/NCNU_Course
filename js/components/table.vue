@@ -2,9 +2,9 @@ var courseDiv = {
     props: ['course'],
     template: `
         <div style='border: 5px #1abc9c solid; text-align: center;'>
-            {{ course }}
+            {{ course.name }}
             <button type="button" 
-                v-on:click="$emit('remove-course', course)"
+                v-on:click="$emit('remove-course', course.name)"
                 class="btn btn-danger btn-sm"
             >
                 刪
@@ -12,7 +12,14 @@ var courseDiv = {
         </div> 
     `
 }
-
+var tempDiv = {
+    props: ['course'],
+    template: `
+        <div style='border: 5px #cf1d5e solid; text-align: center;'>
+            {{ course.name }}
+        </div> 
+    `
+}
 var courseTable = {
     props: ['select_c'],
     data: function(){
@@ -41,7 +48,10 @@ var courseTable = {
             var weekendLock = false
 
             for(var c of this.select_c){
-                this.courses[c.time] = c.name
+                this.courses[c.time] = {
+                    'name': c.name,
+                    'temp': c.temp
+                }
 
                 if(c.time[0]==6 || c.time[0]==7){
                     weekendLock = true
@@ -55,7 +65,8 @@ var courseTable = {
         }
     },
     components: {
-        'course-div': courseDiv
+        'course-div': courseDiv,
+        'temp-div': tempDiv
     },
     template: `
 <table class="table table-bordered" style="table-layout: fixed;word-wrap: break-word;">
@@ -86,6 +97,7 @@ var courseTable = {
                         v-bind:course="courses[week+'z']"
                         v-on:remove-course="removeCourseHandler"
                     ></course-div>
+                    
                 </td>
             </template>
             <template v-else>
@@ -95,10 +107,14 @@ var courseTable = {
                 </th>
                 <td v-for='week in (existWeekend)?7:5'>
                     <course-div 
-                        v-if="exist(week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2))))"
+                        v-if="exist(week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))) && !courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))].temp"
                         v-bind:course="courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))]"
                         v-on:remove-course="removeCourseHandler"
                     ></course-div>
+                    <temp-div 
+                        v-if="exist(week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))) && courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))].temp"
+                        v-bind:course="courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))]"
+                    ></temp-div>
                 </td>
             </template>
         </tr>

@@ -52,7 +52,8 @@ var vm = new Vue({
             for(var t of time){
                 this.selectCourses.push({
                     'time': t,
-                    'name': course.name
+                    'name': course.name,
+                    'temp': false
                 })
             }
         },
@@ -63,7 +64,28 @@ var vm = new Vue({
                     this.selectCourses.splice(i, 1)
                 }
             }
-        }
+        },
+        'saveTemp': function(course){
+            if(course==null){
+            }else{
+                this.tempCourse = []
+                var time = this.getTime(course.time)
+                for(var t of time){
+                    this.selectCourses.push({
+                        'time': t,
+                        'name': course.name,
+                        'temp': true
+                    })
+                }
+            }
+        },
+        'deleteTemp': function(course){
+            for(var i=this.selectCourses.length-1;i>=0;i--){
+                if(this.selectCourses[i].name == course.name && this.selectCourses[i].temp == true){
+                    this.selectCourses.splice(i, 1)
+                }
+            }
+        },
     },
     components: {
         'course-table': courseTable,
