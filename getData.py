@@ -10,6 +10,7 @@ header = {
 }
 
 mainURL = "https://ccweb.ncnu.edu.tw/student/"
+courses = []
 
 def curlDepartmentCourseTable(year):
     print("取得所有課程資料：")
@@ -39,13 +40,6 @@ def curlDepartmentCourseTable(year):
 #         progress.update(1)
 
 def extractDepartmentCourseTable(departmentName, link):
-    # 判斷是否目前還沒有資料
-    if(os.path.isfile('output.json')):
-        with open('output.json', 'r') as fp:
-            courses = json.load(fp)
-    else:
-        courses = []
-    
     response = requests.get(link, headers=header)
     data = response.text
     root = bs(data, "html.parser")
