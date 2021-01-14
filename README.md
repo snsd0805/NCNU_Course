@@ -1,5 +1,5 @@
 # 暨大排課表
-只是一個Vue練習題目，[DEMO](http://163.23.148.126/ncnu_course/)，建議用電腦開
+只是一個Vue練習題目，[DEMO](https://snsd0805.com/NCNU_Course/)，建議用電腦開
 
 ![](https://i.imgur.com/Zbyall6.png)
 
