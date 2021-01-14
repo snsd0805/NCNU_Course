@@ -80,6 +80,29 @@
                 <!-- Portfolio Grid Items-->
             </div>
         </section>
+
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">資訊公告</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        已經更新為 1092 新課表<br>
+                        但因學校未更新通識課資料，因此還沒有「通識課程分類」<br><br>
+                        2021 01/14 更新
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         
         <!-- Copyright Section-->
         <div class="copyright py-4 text-center text-white">
@@ -102,6 +125,10 @@
         <script src="js/components/chooseDepartment.vue"></script>        
         <script src="js/components/coursesList.vue"></script>        
         <script src="js/index.vue"></script>
-
+        <script>
+            $(window).ready(() => {
+                $('#myModal').modal('show');
+            })
+        </script>
     </body>
 </html>
