@@ -35,10 +35,13 @@
 - [x] 把版排好（選課框框改成可下拉（才可以同時看到課表））
 
 # 課程爬蟲使用說明
+
 安裝所需套件
 ```
 pip install -r requirements.txt
 ```
+
+![](https://i.imgur.com/CdygXfj.png)
 
 登入教務系統取得個人登入cookie，貼到`getData.py` line 11即可執行。
 

@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import csv
 from bs4 import BeautifulSoup as bs
 
 
@@ -11,8 +12,31 @@ header = {
 
 mainURL = "https://ccweb.ncnu.edu.tw/student/"
 courses = []
+generalCourse = []
+
+def getGeneralCourseData(year):
+    '''
+        透過年份取得 通識課程分類的csv檔
+        供後續課程對應。
+        
+        先儲存到 generalCourse list，後續再用 courseID 對應通識分類
+    '''
+
+    # 教務系統有開放 年度的query
+    # 但實際操作後似乎僅開放當前學年度
+    response = requests.get(mainURL+"aspmaker_student_common_rank_courses_viewlist.php?x_studentid=0&z_studentid=LIKE&x_year={}&z_year=%3D&cmd=search&export=csv".format(year), headers=header)
+    data = response.text
+
+    courses = data.split('\r\n')[1:-1]
+    for course in courses:
+        course = course.split(',')
+        generalCourse.append(course)
 
 def curlDepartmentCourseTable(year):
+    '''
+        先取得各科系的開課表格連結
+        再將連結丟給 extractDepartmentCourseTable() 取得課程資訊
+    '''
     print("取得所有課程資料：")
 
     response = requests.get(mainURL+"aspmaker_course_opened_semester_stat_viewlist.php?x_year={}&recperpage=ALL".format(year), headers=header)
@@ -28,18 +52,13 @@ def curlDepartmentCourseTable(year):
         count += 1
         extractDepartmentCourseTable(name, link)    # 透過連結 開始擷取 各科系課程
 
-# def curlGeneralCoursePage():    
-#     print("取得通識課資料：")
-#     progress = tqdm(total=generalFinalPage)
-#     for page in range(1, generalFinalPage+1):
-#         url = 'https://ccweb.ncnu.edu.tw/student/aspmaker_student_common_rank_courses_viewlist.php?pageno={}'.format(page)
-#         response = requests.get(url, headers=header)
-#         data = response.text
-#         with open('general/{}.html'.format(page), 'w') as fp:
-#             fp.write(data)
-#         progress.update(1)
-
 def extractDepartmentCourseTable(departmentName, link):
+    '''
+        透過各科系連結取得課程資訊
+        若為通識類別還要跟csv檔資料做對應，取得正確通識類別
+        
+        對應後存取到 output.json
+    '''
     response = requests.get(link, headers=header)
     data = response.text
     root = bs(data, "html.parser")
@@ -60,80 +79,34 @@ def extractDepartmentCourseTable(departmentName, link):
         courseObj['teacher'] = tds[8].find('span').string
         courseObj['place'] = tds[9].find('span').string
         courseObj['time'] = tds[11].find('span').string
+
+        if courseObj['department']=="99, 通識" :
+            flag = False
+            for row in generalCourse:
+                if row[2] == '"{}"'.format(courseObj['number']):
+                    courseObj['department'] = row[0].replace('"', '')
+                    generalCourse.remove(row)
+                    flag = True
+                    break
+            if not flag:
+                print(" - 找不到對應的通識類別： {} ( {} )".format(courseObj['name'], courseObj['number']))
+        
         courses.append(courseObj)
     
     with open('output.json', 'w') as fp:
         json.dump(courses, fp)
 
-    
 
-    # print("解析所有課程html：")
-    # progress = tqdm(total=allFinalPage)
-    # for pageNumber in range(1, allFinalPage+1):
-    #     html = ""
-    #     with open('all/{}.html'.format(pageNumber), 'r') as fp:
-    #         html = fp.read()
-    #     root = bs(html, "html.parser")
-    #     courses = root.find_all('tr')
-    #     courses = courses[1:]
-    #     for course in courses:
-    #         courseObj = {}
-    #         tds = course.find_all('td')
-    #         tds = tds[1:]
-    #         courseObj['year'] = tds[0].text.replace('\n', '')
-    #         courseObj['number'] = tds[1].text.replace('\n', '')
-    #         courseObj['name'] = tds[3].text.replace('\n', '')
-    #         courseObj['class'] = tds[2].text.replace('\n', '')
-    #         courseObj['department'] = tds[4].text.replace('\n', '')
-    #         courseObj['graduated'] = tds[5].text.replace('\n', '')
-    #         courseObj['grade'] = tds[6].text.replace('\n', '')
-    #         courseObj['teacher'] = tds[7].text.replace('\n', '')
-    #         courseObj['place'] = tds[8].text.replace('\n', '')
-    #         courseObj['time'] = tds[10].text.replace('\n', '')
+if __name__ == "__main__":
+    year = input("年份: ")
 
-    #         courseObjList[
-    #             tds[1].text.replace('\n', '')
-    #             +
-    #             tds[2].text.replace('\n', '')
-    #         ] = courseObj
-    #     progress.update(1)
+    getGeneralCourseData(year)
+    curlDepartmentCourseTable(year)
 
-# def extractGeneralCourse():
-#     print("解析通識課html：")
-#     progress = tqdm(total=generalFinalPage)
-#     for pageNumber in range(1, generalFinalPage+1):
-#         html = ""
-#         with open('general/{}.html'.format(pageNumber), 'r') as fp:
-#             html = fp.read()
-#         root = bs(html, "html.parser")
-#         courses = root.find_all('tr')
-#         courses = courses[1:]
-#         for course in courses:
-#             courseObj = {}
-#             tds = course.find_all('td')
-#             number = tds[3].text.replace('\n', '')
-#             classNum = tds[4].text.replace('\n','')
-#             major = tds[1].text.replace('\n', '')
-#             name = tds[6].text.replace('\n', '')
-#             old = courseObjList[number+classNum]['department']
-#             if old != "90, 體育室":
-#                 courseObjList[number+classNum]['department'] = major
-#         progress.update(1)
+    print("\n\n=====================")
+    print("未列入追蹤的通識課程")
+    print("=====================\n")
 
-
-
-year = input("年份: ")
-curlDepartmentCourseTable(year)
-# extractAllCourse()
-# curlGeneralCoursePage()
-# extractGeneralCourse()
-
-# out = []
-# count = 0
-# for item in courseObjList:
-#     count = count+1
-#     out.append(courseObjList[item])
-
-# with open('output.json', 'w') as fp:
-#     fp.write(json.dumps(out, ensure_ascii=False))
-# print(count)
+    for notIn in generalCourse:
+        if "體育:" not in notIn[5]:
+            print(" - 未列入追蹤的新通識課程： {}".format(notIn))
