@@ -35,9 +35,6 @@
                         <li class="nav-item mx-0 mx-lg-1">
                             <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true"></div>
                         </li>
-                        <li class="nav-item mx-0 mx-lg-1">
-                            <button v-on:click="selectDepartment='123'">test</button>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -53,6 +50,9 @@
                     <div class="divider-custom-line"></div>
                     <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                     <div class="divider-custom-line"></div>
+                </div>
+                <div class="divider-custom">
+                    <div class=><button class="btn btn-info" @click="saveCourseTable()">儲存</button></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">

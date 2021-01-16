@@ -6,6 +6,7 @@ var vm = new Vue({
         'departments': [],
         'selectDepartment': '',
         'foundName': "",
+        'token': ""
     },
     created() {
         window.fbAsyncInit = function() {
@@ -17,7 +18,7 @@ var vm = new Vue({
             });
                 
             FB.AppEvents.logPageView();
-            vm.checkLogin()
+            vm.getCourseTable()
         };
       
         (function(d, s, id){
@@ -46,17 +47,15 @@ var vm = new Vue({
             })
     },
     methods: {
-        'checkLogin': function(){
-            console.log("check login")
+        'getCourseTable': function(){
             FB.getLoginStatus(function(response) {
                 vm.statusChangeCallback(response);
             });
         },
         'statusChangeCallback': function(response){
-            console.log(response)
             if(response.status == "connected"){
-                console.log("https://api.snsd0805.com/courseTable?token="+response.authResponse.accessToken)
-                fetch('https://api.snsd0805.com/courseTable?token='+response.authResponse.accessToken)
+                this.token = response.authResponse.accessToken
+                fetch('https://api.snsd0805.com/courseTable?token='+this.token)
                     .then(function(response){
                         return response.json()
                     }).then(function(jsonData){
@@ -65,6 +64,40 @@ var vm = new Vue({
                     .catch(function(err){
                         alert("錯誤： "+err)
                     })
+            }else{
+                
+            }
+        },
+        'saveCourseTable': function(){
+            if(this.token!=""){
+                fetch('https://api.snsd0805.com/courseTable',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'token': vm.token,
+                        'data': vm.selectCourses
+                    })
+                })
+                    .then(function(response){
+                        return response.json()
+                    })
+                    .then(function(response){
+                        if(response.status=="saved"){
+                            alert("已儲存")
+                        }else{
+                            alert("錯誤")
+                        }
+                    })
+                    .catch(function(err){
+                        alert("錯誤： "+err)
+                    })
+
+            }else{
+                FB.login(function(response){
+                    vm.getCourseTable()
+                })
             }
         },
         'getTime': function(timeString){
