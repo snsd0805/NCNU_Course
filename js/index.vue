@@ -1,11 +1,12 @@
 var vm = new Vue({
-    el: "#table",
+    el: "#main",
     data: {
         'courses': [],
         'selectCourses': [],
         'departments': [],
         'selectDepartment': '',
         'foundName': "",
+        "user": "",
         'token': ""
     },
     created() {
@@ -47,6 +48,17 @@ var vm = new Vue({
             })
     },
     methods: {
+        'login': function(){
+            FB.login(function(){
+                vm.getCourseTable()
+            })
+        },
+        'logout': function(){
+            FB.logout(function(response) {
+                vm.user = ""
+                vm.token = ""
+            });
+        },
         'getCourseTable': function(){
             FB.getLoginStatus(function(response) {
                 vm.statusChangeCallback(response);
@@ -55,6 +67,9 @@ var vm = new Vue({
         'statusChangeCallback': function(response){
             if(response.status == "connected"){
                 this.token = response.authResponse.accessToken
+
+                FB.api('/me', function(response){vm.user = response.name})
+
                 fetch('https://api.snsd0805.com/courseTable?token='+this.token)
                     .then(function(response){
                         return response.json()
@@ -94,9 +109,7 @@ var vm = new Vue({
                     })
 
             }else{
-                FB.login(function(response){
-                    vm.getCourseTable()
-                })
+                this.login()
             }
         },
         'getTime': function(timeString){

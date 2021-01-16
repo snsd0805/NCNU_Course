@@ -20,7 +20,7 @@
 
 
 
-
+        <div id='main'>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
@@ -32,9 +32,10 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="https://github.com/snsd0805/NCNU_Course">Github</a></li>
-                        <li class="nav-item mx-0 mx-lg-1">
-                            <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true"></div>
-                        </li>
+                        
+                        <li v-if="token==''" class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#">Facebook登入</a></li>
+                        <li v-if="token!=''" class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#" v-on:click="logout()">登出Facebook—{{user}}</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -52,7 +53,8 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <div class="divider-custom">
-                    <div class=><button class="btn btn-info" @click="saveCourseTable()">儲存</button></div>
+                    <div v-if="token!=''"><button class="btn btn-info" @click="saveCourseTable()">儲存</button></div>
+                    <div v-if="token==''"><button class="btn btn-info" @click="saveCourseTable()">儲存(必須登入Facebook帳號)</button></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
@@ -111,6 +113,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
 
         
