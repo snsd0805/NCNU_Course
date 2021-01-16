@@ -17,7 +17,7 @@ def facebookAuth(token):
     else:
         return False, None, None
 
-@app.route('/courseTable', methods=["POST"])
+@app.route('/courseTable', methods=["GET"])
 def get():
     # 若 access code 通過 facebook 驗證
     status, uid, name = facebookAuth(request.values['token'])
