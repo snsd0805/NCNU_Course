@@ -55,7 +55,16 @@ var vm = new Vue({
         'statusChangeCallback': function(response){
             console.log(response)
             if(response.status == "connected"){
-                
+                console.log("https://api.snsd0805.com/courseTable?token="+response.authResponse.accessToken)
+                fetch('https://api.snsd0805.com/courseTable?token='+response.authResponse.accessToken)
+                    .then(function(response){
+                        return response.json()
+                    }).then(function(jsonData){
+                        console.log(jsonData)
+                    })
+                    .catch(function(err){
+                        alert("錯誤： "+err)
+                    })
             }
         },
         'getTime': function(timeString){

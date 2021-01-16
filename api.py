@@ -2,8 +2,10 @@ from flask import Flask, render_template, request
 import requests
 import json
 import sqlite3
+from flask_cors import  CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/.*": {"origins": ["https://snsd0805.com"]}})
 
 def facebookAuth(token):
     url = "https://graph.facebook.com/v9.0/me?access_token={}"
