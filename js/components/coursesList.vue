@@ -8,6 +8,10 @@ var coursesList = {
     },
     methods: {
         'getTime': function(timeString){
+            if(timeString==null){
+                return ""
+            }
+            
             ans = []
             number = ""
             for(var i of timeString){
