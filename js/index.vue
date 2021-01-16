@@ -60,12 +60,11 @@ var vm = new Vue({
                         return response.json()
                     }).then(function(jsonData){
                         console.log(jsonData)
+                        vm.selectCourses = JSON.parse(jsonData['data'])
                     })
                     .catch(function(err){
                         alert("錯誤： "+err)
                     })
-            }else{
-                
             }
         },
         'saveCourseTable': function(){
