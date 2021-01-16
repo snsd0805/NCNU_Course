@@ -17,6 +17,51 @@
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
+
+        
+        <!-- Facebook SDK -->
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v9.0&appId=1015634862261309&autoLogAppEvents=1" nonce="MTBQv5ev"></script>
+
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '',
+                    cookie     : true,
+                    xfbml      : true,
+                    version    : 'v9.0'
+                });
+                    
+                FB.AppEvents.logPageView();
+            };
+          
+            (function(d, s, id){
+               var js, fjs = d.getElementsByTagName(s)[0];
+               if (d.getElementById(id)) {return;}
+               js = d.createElement(s); js.id = id;
+               js.src = "https://connect.facebook.net/en_US/sdk.js";
+               fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+
+            function checkLoginState() {
+                console.log("check")
+                FB.getLoginStatus(function(response) {
+                    statusChangeCallback(response);
+                });
+            }
+
+            function statusChangeCallback(response){
+                console.log(response)
+                if(response.status == "connected"){
+                    
+                }
+            }
+        </script>
+
+
+
+
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
@@ -28,6 +73,12 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="https://github.com/snsd0805/NCNU_Course">Github</a></li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="true" data-use-continue-as="true"></div>
+                        </li>
+                        <li class="nav-item mx-0 mx-lg-1">
+                            <button onclick="checkLoginState()"></button>
+                        </li>
                     </ul>
                 </div>
             </div>
