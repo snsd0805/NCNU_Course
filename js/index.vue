@@ -68,7 +68,7 @@ var vm = new Vue({
             if(response.status == "connected"){
                 this.token = response.authResponse.accessToken
 
-                FB.api('/me', function(response){vm.user = response.name})
+                FB.api('/me', function(response){vm.user = response})
 
                 fetch('https://api.snsd0805.com/courseTable?token='+this.token)
                     .then(function(response){
@@ -180,6 +180,13 @@ var vm = new Vue({
                 a.download = '課表.jpg';
                 a.click();
             });
+        },
+        'share': function(){
+            url = "https://snsd0805.com/NCNU_Course/share.html?id="
+            if(this.user!="")
+                alert("請複製以下網址給你的朋友，跟他分享你的課表\n\n"+url+this.user.id)
+            else
+                this.login()
         }
     },
     components: {
