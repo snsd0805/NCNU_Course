@@ -53,8 +53,15 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <div class="divider-custom">
-                    <div v-if="token!=''"><button class="btn btn-info" @click="saveCourseTable()">儲存</button></div>
-                    <div v-if="token==''"><button class="btn btn-info" @click="saveCourseTable()">儲存(必須登入Facebook帳號)</button></div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div v-if="token!=''"><button class="btn btn-info" @click="saveCourseTable()">儲存</button></div>
+                            <div v-if="token==''"><button class="btn btn-info" @click="saveCourseTable()">儲存(登入Facebook)</button></div>
+                        </div>
+                        <div class="col-4">
+                            <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
@@ -83,6 +90,7 @@
 
                     <div class="col-lg-9 table-responsive " >
                         <course-table
+                            id='course-table-div'
                             v-bind:selectCourses="selectCourses"
                             v-bind:select_c="selectCourses"
                             v-on:remove-course="removeCourse"
@@ -122,6 +130,8 @@
             <div class="container"><small>Copyright © 暨大排課表 2020</small></div>
         </div>
         
+        <!-- html2canvas -->
+        <script  src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>

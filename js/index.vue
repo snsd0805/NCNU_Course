@@ -173,6 +173,14 @@ var vm = new Vue({
                 }
             }
         },
+        'generatePic': function(){
+            html2canvas(document.getElementById('course-table-div')).then(function(canvas) {
+                var a = document.createElement('a');
+                a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                a.download = '課表.jpg';
+                a.click();
+            });
+        }
     },
     components: {
         'course-table': courseTable,
