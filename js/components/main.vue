@@ -277,6 +277,7 @@ var mainWindow = {
 
             <div class="col-lg-9 table-responsive " >
                 <course-table
+                    id="course-table-div"
                     v-bind:selectCourses="selectCourses"
                     v-bind:select_c="selectCourses"
                     v-bind:is_shared="false"
