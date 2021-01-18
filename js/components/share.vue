@@ -69,6 +69,7 @@ var share = {
                 <course-table
                     v-bind:selectCourses="selectCourses"
                     v-bind:select_c="selectCourses"
+                    v-bind:is_shared="true"
                 ></course-table>
             </div>
         </div>
