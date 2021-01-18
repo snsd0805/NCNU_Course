@@ -75,7 +75,7 @@ var mainWindow = {
                 this.token = response.authResponse.accessToken
 
                 var main = this
-                FB.api('/me', function(response){main.user = response.name})
+                FB.api('/me', function(response){main.user = response})
 
                 fetch('https://api.snsd0805.com/courseTable?token='+this.token)
                     .then(function(response){
@@ -217,7 +217,7 @@ var mainWindow = {
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="https://github.com/snsd0805/NCNU_Course">Github</a></li>
                 
                 <li v-if="token==''" class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href='#' v-on:click="login()">Facebook登入</a></li>
-                <li v-if="token!=''" class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#" v-on:click="logout()">登出Facebook—{{user}}</a></li>
+                <li v-if="token!=''" class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#" v-on:click="logout()">登出Facebook—{{user.name}}</a></li>
 
             </ul>
         </div>
