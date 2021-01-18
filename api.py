@@ -68,6 +68,23 @@ def save():
     else:
         return '{"status": "error access code"}', 403
 
+@app.route('/shared/<uid>', methods=['GET'])
+def shared(uid):
+    with sqlite3.connect('data.db') as conn:
+        sql = "SELECT `json` FROM `courseTables` WHERE `uid`=?"
+
+        data = conn.execute(sql, [uid]).fetchone()
+
+        if data:
+            ansJSON = data[0]
+            return json.dumps({
+                "status": "ok",
+                "data": ansJSON
+            }), 200
+        else:
+            return json.dumps({
+                "status": "not found",
+            }), 404
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0')

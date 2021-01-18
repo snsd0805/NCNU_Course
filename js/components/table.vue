@@ -1,9 +1,10 @@
 var courseDiv = {
-    props: ['course'],
+    props: ['course', 'is_shared'],
     template: `
         <div style='border: 5px #1abc9c solid; text-align: center;'>
             {{ course.name }}
             <button type="button" 
+                v-if="!is_shared"
                 v-on:click="$emit('remove-course', course.name)"
                 class="btn btn-danger btn-sm"
             >
@@ -21,7 +22,7 @@ var tempDiv = {
     `
 }
 var courseTable = {
-    props: ['select_c'],
+    props: ['select_c', 'is_shared'],
     data: function(){
         return {
             'courses': {},
@@ -95,6 +96,7 @@ var courseTable = {
                     <course-div 
                         v-if="exist(week+'z')"
                         v-bind:course="courses[week+'z']"
+                        v-bind:is_shared="is_shared"
                         v-on:remove-course="removeCourseHandler"
                     ></course-div>
                     
@@ -109,6 +111,7 @@ var courseTable = {
                     <course-div 
                         v-if="exist(week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))) && !courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))].temp"
                         v-bind:course="courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))]"
+                        v-bind:is_shared="is_shared"
                         v-on:remove-course="removeCourseHandler"
                     ></course-div>
                     <temp-div 
