@@ -237,13 +237,17 @@ var mainWindow = {
             <div class="divider-custom-line"></div>
         </div>
         <div class="divider-custom">
-            <div v-if="token!=''"><button class="btn btn-info" @click="saveCourseTable()">儲存</button></div>
-            <div v-if="token==''"><button class="btn btn-info" @click="saveCourseTable()">儲存(必須登入Facebook帳號)</button></div>
-            <div class="col-4">
-                <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
-            </div>
-            <div class="col-4">
-                <div><button class="btn btn-primary" @click="share()">分享課表</button></div>
+            <div class="row">
+                <div class="col-4">
+                    <div v-if="token!=''"><button class="btn btn-danger" @click="saveCourseTable()">儲存</button></div>
+                    <div v-if="token==''"><button class="btn btn-danger" @click="saveCourseTable()">儲存(登入FB)</button></div>
+                </div>
+                <div class="col-4">
+                    <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
+                </div>
+                <div class="col-4">
+                    <div><button class="btn btn-primary" @click="share()">分享課表</button></div>
+                </div>
             </div>
         </div>
         <div class="row">
