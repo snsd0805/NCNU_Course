@@ -275,7 +275,7 @@ var mainWindow = {
                 <course-table
                     v-bind:selectCourses="selectCourses"
                     v-bind:select_c="selectCourses"
-                    v-bind:is_shared="False"
+                    v-bind:is_shared="false"
                     v-on:remove-course="removeCourse"
                 ></course-table>
             </div>
