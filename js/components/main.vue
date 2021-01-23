@@ -1,5 +1,5 @@
 var mainWindow = {
-    data: function(){
+    data: function () {
         return {
             'courses': [],
             'selectCourses': [],
@@ -12,24 +12,24 @@ var mainWindow = {
     },
     created() {
         var main = this
-        window.fbAsyncInit = function() {
+        window.fbAsyncInit = function () {
             FB.init({
-                appId      : '',
-                cookie     : true,
-                xfbml      : true,
-                version    : 'v9.0'
+                appId: '',
+                cookie: true,
+                xfbml: true,
+                version: 'v9.0'
             });
-                
+
             FB.AppEvents.logPageView();
             main.getCourseTable()
         };
-      
-        (function(d, s, id){
-           var js, fjs = d.getElementsByTagName(s)[0];
-           if (d.getElementById(id)) {return;}
-           js = d.createElement(s); js.id = id;
-           js.src = "https://connect.facebook.net/en_US/sdk.js";
-           fjs.parentNode.insertBefore(js, fjs);
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     },
     mounted() {
@@ -37,62 +37,76 @@ var mainWindow = {
         axios
             .get("./output.json")
             .then(response => (main.courses = response.data))
-            .then(function(){
-                for(var course of main.courses){
+            .then(function () {
+                for (var course of main.courses) {
                     // console.log(course.name)
-                    if(main.departments.indexOf(course.department)==-1){
+                    if (main.departments.indexOf(course.department) == -1) {
                         main.departments.push(course.department)
                     }
                 }
             })
-            .then(function(){
+            .then(function () {
                 main.departments.sort()
                 main.selectDepartment = main.departments[15]
             })
+            .then(function () {
+                // Collapse Navbar
+                var navbarCollapse = function () {
+                    if ($("#mainNav").offset().top > 100) {
+                        $("#mainNav").addClass("navbar-shrink");
+                    } else {
+                        $("#mainNav").removeClass("navbar-shrink");
+                    }
+                };
+                // Collapse now if page is not at top
+                navbarCollapse();
+                // Collapse the navbar when page is scrolled
+                $(window).scroll(navbarCollapse);
+            })
     },
     methods: {
-        'login': function(){
+        'login': function () {
             var main = this
-            FB.login(function(){
+            FB.login(function () {
                 main.getCourseTable()
             })
         },
-        'logout': function(){
+        'logout': function () {
             var main = this
-            FB.logout(function(response) {
+            FB.logout(function (response) {
                 main.user = ""
                 main.token = ""
             });
         },
-        'getCourseTable': function(){
+        'getCourseTable': function () {
             var main = this
-            FB.getLoginStatus(function(response) {
+            FB.getLoginStatus(function (response) {
                 main.statusChangeCallback(response);
             });
         },
-        'statusChangeCallback': function(response){
-            if(response.status == "connected"){
+        'statusChangeCallback': function (response) {
+            if (response.status == "connected") {
                 this.token = response.authResponse.accessToken
 
                 var main = this
-                FB.api('/me', function(response){main.user = response})
+                FB.api('/me', function (response) { main.user = response })
 
-                fetch('https://api.snsd0805.com/courseTable?token='+this.token)
-                    .then(function(response){
+                fetch('https://api.snsd0805.com/courseTable?token=' + this.token)
+                    .then(function (response) {
                         return response.json()
-                    }).then(function(jsonData){
+                    }).then(function (jsonData) {
                         console.log(jsonData)
                         main.selectCourses = JSON.parse(jsonData['data'])
                     })
-                    .catch(function(err){
-                        alert("錯誤： "+err)
+                    .catch(function (err) {
+                        alert("錯誤： " + err)
                     })
             }
         },
-        'saveCourseTable': function(){
+        'saveCourseTable': function () {
             var main = this
-            if(this.token!=""){
-                fetch('https://api.snsd0805.com/courseTable',{
+            if (this.token != "") {
+                fetch('https://api.snsd0805.com/courseTable', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -102,49 +116,49 @@ var mainWindow = {
                         'data': main.selectCourses
                     })
                 })
-                    .then(function(response){
+                    .then(function (response) {
                         return response.json()
                     })
-                    .then(function(response){
-                        if(response.status=="saved"){
+                    .then(function (response) {
+                        if (response.status == "saved") {
                             alert("已儲存")
-                        }else{
+                        } else {
                             alert("錯誤")
                         }
                     })
-                    .catch(function(err){
-                        alert("錯誤： "+err)
+                    .catch(function (err) {
+                        alert("錯誤： " + err)
                     })
 
-            }else{
+            } else {
                 this.login()
             }
         },
-        'getTime': function(timeString){
+        'getTime': function (timeString) {
             ans = []
             number = ""
-            for(var i of timeString){
-                if(i>="0" && i<="9"){
+            for (var i of timeString) {
+                if (i >= "0" && i <= "9") {
                     number = i
-                }else if(i>="a" && i<="z"){
-                    ans.push(number+i)
+                } else if (i >= "a" && i <= "z") {
+                    ans.push(number + i)
                 }
-                else{
+                else {
                     ans.push(timeString)
                     break
                 }
             }
             return ans
         },
-        'select': function(department){
+        'select': function (department) {
             this.selectDepartment = department
         },
-        'founded': function(courseName){
+        'founded': function (courseName) {
             this.foundName = courseName
         },
-        'addCourse': function(course){
+        'addCourse': function (course) {
             var time = this.getTime(course.time)
-            for(var t of time){
+            for (var t of time) {
                 this.selectCourses.push({
                     'time': t,
                     'name': course.name,
@@ -152,20 +166,20 @@ var mainWindow = {
                 })
             }
         },
-        'removeCourse': function(course){
-            console.log("remove "+course)
-            for(var i=this.selectCourses.length-1;i>=0;i--){
-                if(this.selectCourses[i].name == course){
+        'removeCourse': function (course) {
+            console.log("remove " + course)
+            for (var i = this.selectCourses.length - 1; i >= 0; i--) {
+                if (this.selectCourses[i].name == course) {
                     this.selectCourses.splice(i, 1)
                 }
             }
         },
-        'saveTemp': function(course){
-            if(course==null){
-            }else{
+        'saveTemp': function (course) {
+            if (course == null) {
+            } else {
                 this.tempCourse = []
                 var time = this.getTime(course.time)
-                for(var t of time){
+                for (var t of time) {
                     this.selectCourses.push({
                         'time': t,
                         'name': course.name,
@@ -174,23 +188,23 @@ var mainWindow = {
                 }
             }
         },
-        'deleteTemp': function(course){
-            for(var i=this.selectCourses.length-1;i>=0;i--){
-                if(this.selectCourses[i].name == course.name && this.selectCourses[i].temp == true){
+        'deleteTemp': function (course) {
+            for (var i = this.selectCourses.length - 1; i >= 0; i--) {
+                if (this.selectCourses[i].name == course.name && this.selectCourses[i].temp == true) {
                     this.selectCourses.splice(i, 1)
                 }
             }
         },
-        'generatePic': function(){
-            html2canvas(document.getElementById('course-table-div')).then(function(canvas) {
+        'generatePic': function () {
+            html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
                 var a = document.createElement('a');
                 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 a.download = '課表.jpg';
                 a.click();
             });
         },
-        'share': function(){
-            if(this.user!="")
+        'share': function () {
+            if (this.user != "")
                 $('#share').modal('show');
             else
                 this.login()
