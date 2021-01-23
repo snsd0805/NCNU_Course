@@ -263,16 +263,16 @@ var mainWindow = {
         </div>
         <div class="row">
             <div class="col-lg-3">
-                <div class="row">
+                <div class="row mx-auto mb-2">
                     <choose-department 
                         v-bind:departments="departments"
                         v-bind:selected="selectDepartment"
                         v-on:selectok="select"
                         v-on:foundedok="founded"
                     >
-                    </choose-department><br>
-                </div><br><br>
-                <div class="row">
+                    </choose-department>
+                </div>
+                <div class="row mx-auto mb-2">
                     <course-anslist
                         v-bind:courses="courses"
                         v-bind:selected_d="selectDepartment"
@@ -283,7 +283,7 @@ var mainWindow = {
                         v-on:delete-temp="deleteTemp"
                     >
                     </course-anslist>
-                </div><br><br>
+                </div>
             </div>
 
             <div class="col-lg-9 table-responsive " >
