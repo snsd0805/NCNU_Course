@@ -63,7 +63,7 @@ var coursesList = {
         }
     },
     template: `
-    <div class="mx-auto mb-4 border">
+    <div class="mx-auto mb-4">
 		<h5>2. 安排課程</h5>
 		<p style="color: orange" v-if="find_name"> ※ 已套用「名稱」搜尋： <br>{{find_name}}</p>
 		<div style="width:275px;height:500px;overflow:auto">

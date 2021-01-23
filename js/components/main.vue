@@ -272,6 +272,7 @@ var mainWindow = {
                     >
                     </choose-department>
                 </div>
+                <br>
                 <div class="row mx-auto mb-2">
                     <course-anslist
                         v-bind:courses="courses"
