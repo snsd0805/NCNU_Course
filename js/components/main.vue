@@ -7,7 +7,8 @@ var mainWindow = {
             'selectDepartment': '',
             'foundName': "",
             "user": "",
-            'token': ""
+            'token': "", 
+            'is_print': false,
         }
     },
     created() {
@@ -194,6 +195,7 @@ var mainWindow = {
             }
         },
         'generatePic': function () {
+            this.is_print = true;
             html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
                 var a = document.createElement('a');
                 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
@@ -206,7 +208,10 @@ var mainWindow = {
                 $('#share').modal('show');
             else
                 this.login()
-        }
+        },
+        'enableDelete': function () {
+            this.is_print = !this.is_print;
+        },
     },
     components: {
         'course-table': courseTable,
@@ -249,14 +254,18 @@ var mainWindow = {
         </div>
         <div class="divider-custom">
             <div class="row">
-                <div class="col-4">
+                <div class="col-3">
                     <div v-if="token!=''"><button class="btn btn-danger" @click="saveCourseTable()">儲存</button></div>
                     <div v-if="token==''"><button class="btn btn-danger" @click="saveCourseTable()">儲存(登入FB)</button></div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
+                    <div><button class="btn btn-info" v-if="is_print" @click="enableDelete()">可刪除</button></div>
+                    <div><button class="btn btn-info" v-if="!is_print" @click="enableDelete()">不可刪除</button></div>
+                </div>
+                <div class="col-3">
                     <div><button class="btn btn-primary" @click="share()">分享課表</button></div>
                 </div>
             </div>
@@ -291,6 +300,7 @@ var mainWindow = {
                     id="course-table-div"
                     v-bind:selectCourses="selectCourses"
                     v-bind:select_c="selectCourses"
+                    v-bind:is_print="is_print"
                     v-bind:is_shared="false"
                     v-on:remove-course="removeCourse"
                 ></course-table>
