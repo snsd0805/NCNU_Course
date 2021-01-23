@@ -190,9 +190,8 @@ var mainWindow = {
             });
         },
         'share': function(){
-            url = "https://snsd0805.com/NCNU_Course/#/share/"
             if(this.user!="")
-                alert("請複製以下網址給你的朋友，跟他分享你的課表\n\n"+url+this.user.id)
+                $('#share').modal('show');
             else
                 this.login()
         }
@@ -300,9 +299,33 @@ var mainWindow = {
                 </button>
             </div>
             <div class="modal-body">
-                已經更新為 1092 新課表<br>
-                但因學校未更新通識課資料，因此還沒有「通識課程分類」<br><br>
-                2021 01/14 更新
+                <ul>
+                    <li>已經更新為 1092 新課表(包含通識課分類)</li>
+                    <li>使用 Facebook API 儲存課表</li>
+                    <li>新增「下載圖檔」功能</li>
+                    <li>新增「分享課表」功能</li>
+                </ul>
+                2021 01/23 更新
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="share" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">分享課表</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                請複製以下網址給你的朋友，跟他分享你的課表<br><br>
+                https://snsd0805.com/NCNU_Course/#/share/{{user.id}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
