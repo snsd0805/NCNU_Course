@@ -53,6 +53,7 @@ var courseTable = {
                 this.courses[c.time] = {
                     'name': c.name,
                     'number': c.number,
+                    'class': c.class,
                     'temp': c.temp
                 }
 

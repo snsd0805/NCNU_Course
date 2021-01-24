@@ -162,14 +162,15 @@ var mainWindow = {
                     'time': t,
                     'name': course.name,
                     'temp': false,
-                    'number': course.number
+                    'number': course.number,
+                    'class': course.class
                 })
             }
         },
         'removeCourse': function (course) {
             console.log("remove " + course.name)
             for (var i = this.selectCourses.length - 1; i >= 0; i--) {
-                if (this.selectCourses[i].number == course.number) {
+                if (this.selectCourses[i].number === course.number && this.selectCourses[i].class === course.class) {
                     this.selectCourses.splice(i, 1)
                 }
             }
