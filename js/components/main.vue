@@ -7,7 +7,7 @@ var mainWindow = {
             'selectDepartment': '',
             'foundName': "",
             "user": "",
-            'token': "", 
+            'token': "",
             'is_print': false,
         }
     },
@@ -196,16 +196,23 @@ var mainWindow = {
         },
         'generatePic': function () {
             var main = this
-            main.is_print = true;
-            html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
-                var a = document.createElement('a');
-                a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                a.download = '課表.jpg';
-                a.click();
+            const doPrint = new Promise((resolve, reject) => {
+                main.is_print = true;
+                resolve();
             });
-            setTimeout(function(){ 
+            doPrint
+            .then(() =>{
+                html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
+                    var a = document.createElement('a');
+                    a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                    a.download = '課表.jpg';
+                    a.click();
+                });
+                console.log("adasd");
+            })
+            .then(() => {
                 main.is_print = false;
-            }, 5000);
+            })
         },
         'share': function () {
             if (this.user != "")
