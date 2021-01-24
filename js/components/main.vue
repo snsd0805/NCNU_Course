@@ -133,20 +133,18 @@ var mainWindow = {
             }
         },
         'getTime': function (timeString) {
-            ans = []
-            number = ""
-            for (var i of timeString) {
-                if (i >= "0" && i <= "9") {
-                    number = i
-                } else if (i >= "a" && i <= "z") {
-                    ans.push(number + i)
-                }
-                else {
-                    ans.push(timeString)
-                    break
-                }
-            }
-            return ans
+            let num;
+            const timeRegex = new RegExp(/^\d[\da-z]*[a-z]$/);
+            return timeRegex.test(timeString)
+                ? [...timeString].reduce((res, c) => {
+                    if (Number.isInteger(+c)) {
+                        num = c;
+                        return res;
+                    } else {
+                        return [...res, num + c];
+                    }
+                }, [])
+                : [];
         },
         'select': function (department) {
             this.selectDepartment = department
