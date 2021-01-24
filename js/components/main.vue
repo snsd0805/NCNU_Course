@@ -208,7 +208,6 @@ var mainWindow = {
                     a.download = '課表.jpg';
                     a.click();
                 });
-                console.log("adasd");
             })
             .then(() => {
                 main.is_print = false;
