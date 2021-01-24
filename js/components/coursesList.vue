@@ -69,7 +69,7 @@ var coursesList = {
 						<td>
 							<div class="container row py-2 px-0">
 								<div class="col-12 pr-1">
-									<b>{{ course.name }} (<a v-bind:href="course.link">詳</a>)</b>
+									<b>{{ course.name }} (<a v-bind:href="course.link" target="_blank">詳</a>)</b>
 									—— {{ (course.department.indexOf(', ')!=-1) ?(course.department.split(', ')[1]) :(course.department) }}
 								</div>
 								<div class="col-sm-8 pr-1">
@@ -91,7 +91,7 @@ var coursesList = {
 						<td>
                         <div class="container row py-2 px-0">
                             <div class="col-12 pr-1">
-                                <b>{{ course.name }} (<a v-bind:href="course.link">詳</a>)</b>
+                                <b>{{ course.name }} (<a v-bind:href="course.link" target="_blank">詳</a>)</b>
                             </div>
                             <div class="col-sm-8 pr-1">
                                 {{ course.teacher }} ‧ {{ course.time }} 
