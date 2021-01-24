@@ -7,7 +7,8 @@ var mainWindow = {
             'selectDepartment': '',
             'foundName': "",
             "user": "",
-            'token': ""
+            'token': "",
+            'is_print': false,
         }
     },
     created() {
@@ -194,19 +195,30 @@ var mainWindow = {
             }
         },
         'generatePic': function () {
-            html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
-                var a = document.createElement('a');
-                a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                a.download = '課表.jpg';
-                a.click();
+            var main = this
+            const doPrint = new Promise((resolve, reject) => {
+                main.is_print = true;
+                resolve();
             });
+            doPrint
+            .then(() =>{
+                html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
+                    var a = document.createElement('a');
+                    a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                    a.download = '課表.jpg';
+                    a.click();
+                });
+            })
+            .then(() => {
+                main.is_print = false;
+            })
         },
         'share': function () {
             if (this.user != "")
                 $('#share').modal('show');
             else
                 this.login()
-        }
+        },
     },
     components: {
         'course-table': courseTable,
@@ -292,6 +304,7 @@ var mainWindow = {
                     id="course-table-div"
                     v-bind:selectCourses="selectCourses"
                     v-bind:select_c="selectCourses"
+                    v-bind:is_print="is_print"
                     v-bind:is_shared="false"
                     v-on:remove-course="removeCourse"
                 ></course-table>
