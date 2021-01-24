@@ -5,7 +5,7 @@ var courseDiv = {
             {{ course.name }}
             <button type="button" 
                 v-if="!is_shared"
-                v-on:click="$emit('remove-course', course.name)"
+                v-on:click="$emit('remove-course', course)"
                 class="btn btn-danger btn-sm"
                 :style="{'display': is_print ? 'none' : 'inline-block'}"
             >
@@ -52,6 +52,8 @@ var courseTable = {
             for(var c of this.select_c){
                 this.courses[c.time] = {
                     'name': c.name,
+                    'number': c.number,
+                    'class': c.class,
                     'temp': c.temp
                 }
 
