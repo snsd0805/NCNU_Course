@@ -8,35 +8,25 @@ var coursesList = {
     },
     methods: {
         'getTime': function (timeString) {
-            if (timeString == null) {
-                return ""
-            }
-
-            ans = []
-            number = ""
-            for (var i of timeString) {
-                if (i >= "0" && i <= "9") {
-                    number = i
-                } else if (i >= "a" && i <= "z") {
-                    ans.push(number + i)
-                }
-                else {
-                    ans.push(timeString)
-                    break
-                }
-            }
-            return ans
+            let num;
+            const timeRegex = new RegExp(/^\d[\da-z]*[a-z]$/);
+            return timeRegex.test(timeString)
+                ? [...timeString].reduce((res, c) => {
+                    if (Number.isInteger(+c)) {
+                        num = c;
+                        return res;
+                    } else {
+                        return [...res, num + c];
+                    }
+                }, [])
+                : [];
         },
         'isOK': function (course) {
             var time = this.getTime(course.time)
             // console.log(course.name, " ", time)
-            for (t of time) {
-                for (st of this.selectedTime) {
-                    if (t == st)
-                        return false
-                }
-            }
-            return true
+            const isConflict = time.some((t) => this.selectedTime.includes(t))
+
+            return time.length && !isConflict
         },
         'log': function (name, data) {
             console.log(name, data)
