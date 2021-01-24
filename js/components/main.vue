@@ -195,22 +195,23 @@ var mainWindow = {
             }
         },
         'generatePic': function () {
-            this.is_print = true;
+            var main = this
+            main.is_print = true;
             html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
                 var a = document.createElement('a');
                 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 a.download = '課表.jpg';
                 a.click();
             });
+            setTimeout(function(){ 
+                main.is_print = false;
+            }, 5000);
         },
         'share': function () {
             if (this.user != "")
                 $('#share').modal('show');
             else
                 this.login()
-        },
-        'enableDelete': function () {
-            this.is_print = !this.is_print;
         },
     },
     components: {
@@ -254,18 +255,14 @@ var mainWindow = {
         </div>
         <div class="divider-custom">
             <div class="row">
-                <div class="col-3">
+                <div class="col-4">
                     <div v-if="token!=''"><button class="btn btn-danger" @click="saveCourseTable()">儲存</button></div>
                     <div v-if="token==''"><button class="btn btn-danger" @click="saveCourseTable()">儲存(登入FB)</button></div>
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                     <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
                 </div>
-                <div class="col-3">
-                    <div><button class="btn btn-info" v-if="is_print" @click="enableDelete()">可刪除</button></div>
-                    <div><button class="btn btn-info" v-if="!is_print" @click="enableDelete()">不可刪除</button></div>
-                </div>
-                <div class="col-3">
+                <div class="col-4">
                     <div><button class="btn btn-primary" @click="share()">分享課表</button></div>
                 </div>
             </div>
