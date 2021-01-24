@@ -161,14 +161,15 @@ var mainWindow = {
                 this.selectCourses.push({
                     'time': t,
                     'name': course.name,
-                    'temp': false
+                    'temp': false,
+                    'number': course.number
                 })
             }
         },
         'removeCourse': function (course) {
-            console.log("remove " + course)
+            console.log("remove " + course.name)
             for (var i = this.selectCourses.length - 1; i >= 0; i--) {
-                if (this.selectCourses[i].name == course) {
+                if (this.selectCourses[i].number == course.number) {
                     this.selectCourses.splice(i, 1)
                 }
             }
