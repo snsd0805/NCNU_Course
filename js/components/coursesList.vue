@@ -53,13 +53,8 @@ var coursesList = {
             this.selectedTime = temp
         },
         'find_name': function () {
-            var temp = []
-            for (var c of this.courses) {
-                if (c.name.indexOf(this.find_name) != -1) {
-                    temp.push(c)
-                }
-            }
-            this.foundedCourses = temp
+            const target = this.find_name.toLowerCase();
+            this.foundedCourses = this.courses.filter((c) => c.name.toLowerCase().includes(target));
         }
     },
     template: `
