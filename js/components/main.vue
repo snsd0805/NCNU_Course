@@ -351,7 +351,7 @@ var mainWindow = {
             </div>
             <div class="modal-body">
                 請複製以下網址給你的朋友，跟他分享你的課表<br><br>
-                https://snsd0805.com/NCNU_Course/#/share/{{user.id}}
+                https://course.snsd0805.com/#/share/{{user.id}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
