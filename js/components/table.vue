@@ -54,7 +54,8 @@ var courseTable = {
                     'name': c.name,
                     'number': c.number,
                     'class': c.class,
-                    'temp': c.temp
+                    'temp': c.temp,
+                    'credit': c.credit
                 }
 
                 if(c.time[0]==6 || c.time[0]==7){
