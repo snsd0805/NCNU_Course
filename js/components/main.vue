@@ -171,7 +171,8 @@ var mainWindow = {
                     'temp': false,
                     'number': course.number,
                     'class': course.class,
-                    'credit': course.credit
+                    'credit': course.credit,
+                    'link': course.link
                 })
             }
             this.creditNum += parseFloat(course.credit)
