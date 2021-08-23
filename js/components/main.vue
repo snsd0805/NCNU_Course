@@ -326,12 +326,11 @@ var mainWindow = {
             </div>
             <div class="modal-body">
                 <ul>
-                    <li>已經更新為 1092 新課表(包含通識課分類)</li>
-                    <li>使用 Facebook API 儲存課表</li>
-                    <li>新增「下載圖檔」功能</li>
-                    <li>新增「分享課表」功能</li>
+                    <li>已經更新為 1101 新學期課表(包含通識課分類)</li>
+                    <li>有發現 Bug 可以到 <a href='https://github.com/snsd0805/NCNU_Course/issues'>GitHub</a> 發 issue 或 <a href='mailto: levi900227@gmail.com'>mail</a></li>
+                    <li>請善用「連接 Facebook」功能來儲存課表！</li>
                 </ul>
-                2021 01/23 更新
+                2021 07/16 更新
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
