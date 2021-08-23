@@ -9,6 +9,7 @@ var mainWindow = {
             "user": "",
             'token': "",
             'is_print': false,
+            'creditNum': 0,
         }
     },
     created() {
@@ -96,6 +97,14 @@ var mainWindow = {
                     }).then(function (jsonData) {
                         console.log(jsonData)
                         main.selectCourses = JSON.parse(jsonData['data'])
+
+                        var courseSet = new Set()
+                        for (var course of main.selectCourses) {
+                            if (!courseSet.has(course.number+course.class)) {   // 用 courseID + 班別 判斷是否重複
+                                main.creditNum += parseFloat(course.credit)
+                                courseSet.add(course)
+                            }
+                        }
                     })
                     .catch(function (err) {
                         alert("錯誤： " + err)
@@ -161,9 +170,12 @@ var mainWindow = {
                     'name': course.name,
                     'temp': false,
                     'number': course.number,
-                    'class': course.class
+                    'class': course.class,
+                    'credit': course.credit,
+                    'link': course.link
                 })
             }
+            this.creditNum += parseFloat(course.credit)
         },
         'removeCourse': function (course) {
             console.log("remove " + course.name)
@@ -172,6 +184,7 @@ var mainWindow = {
                     this.selectCourses.splice(i, 1)
                 }
             }
+            this.creditNum -= parseFloat(course.credit)
         },
         'saveTemp': function (course) {
             if (course == null) {
@@ -273,6 +286,7 @@ var mainWindow = {
                 </div>
             </div>
         </div>
+        <br>
         <div class="row">
             <div class="col-lg-3">
                 <div class="row mx-auto mb-2">
@@ -297,7 +311,18 @@ var mainWindow = {
                     >
                     </course-anslist>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                已經選了 {{ creditNum }} 學分
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
+            <br>
 
             <div class="col-lg-9 table-responsive " >
                 <course-table

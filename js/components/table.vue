@@ -3,6 +3,7 @@ var courseDiv = {
     template: `
         <div style='border: 5px #1abc9c solid; text-align: center;'>
             {{ course.name }}
+            <a v-bind:href="course.link" target="_blank"><i class="fas fa-info-circle"></i></a>
             <button type="button" 
                 v-if="!is_shared"
                 v-on:click="$emit('remove-course', course)"
@@ -54,7 +55,9 @@ var courseTable = {
                     'name': c.name,
                     'number': c.number,
                     'class': c.class,
-                    'temp': c.temp
+                    'temp': c.temp,
+                    'credit': c.credit,
+                    'link': c.link
                 }
 
                 if(c.time[0]==6 || c.time[0]==7){
