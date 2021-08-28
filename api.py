@@ -10,14 +10,18 @@ CORS(app, resources={r"/.*": {"origins": ["https://course.snsd0805.com"]}})
 def facebookAuth(token):
     url = "https://graph.facebook.com/v9.0/me?access_token={}"
     
-    response = requests.get(url.format(token), timeout=3)
-    data = json.loads(response.text)
-
-    # 若 access code 通過 facebook 驗證
-    if response.status_code == 200:
-        return True, data['id'], data['name']
-    else:
+    try:
+        response = requests.get(url.format(token), timeout=5)
+    except:
         return False, None, None
+    else: 
+        data = json.loads(response.text)
+
+        # 若 access code 通過 facebook 驗證
+        if response.status_code == 200:
+            return True, data['id'], data['name']
+        else:
+            return False, None, None
 
 @app.route('/courseTable', methods=["GET"])
 def get():
