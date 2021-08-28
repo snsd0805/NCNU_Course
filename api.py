@@ -10,7 +10,7 @@ CORS(app, resources={r"/.*": {"origins": ["https://course.snsd0805.com"]}})
 def facebookAuth(token):
     url = "https://graph.facebook.com/v9.0/me?access_token={}"
     
-    response = requests.get(url.format(token))
+    response = requests.get(url.format(token), timeout=3)
     data = json.loads(response.text)
 
     # 若 access code 通過 facebook 驗證
