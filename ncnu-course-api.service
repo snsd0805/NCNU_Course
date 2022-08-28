@@ -1,0 +1,20 @@
+[Unit]
+Description=NCNU-Course Python Backend API
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=python3 api.py
+Restart=always
+
+WorkingDirectory=/var/www/html/NCNU_Course
+User=pi
+
+RestartSec=10s
+
+StandardOutput=syslog
+StandardOutput=syslog
+SyslogIdentifier=ncnu-course
+
+[Install]
+WantedBy=multi-user.target
