@@ -8,7 +8,7 @@ ExecStart=python3 api.py
 Restart=always
 
 WorkingDirectory=/var/www/html/NCNU_Course
-User=pi
+User=course
 
 RestartSec=10s
 
