@@ -114,6 +114,12 @@ var mainWindow = {
         'saveCourseTable': function () {
             var main = this
             if (this.token != "") {
+                filteredCourses = []
+                for(var tempCourse of main.selectCourses){
+                    if(tempCourse.temp == false){
+                        filteredCourses.push(tempCourse);
+                    }
+                }
                 fetch('https://api.snsd0805.com/courseTable', {
                     method: 'POST',
                     headers: {
@@ -121,7 +127,7 @@ var mainWindow = {
                     },
                     body: JSON.stringify({
                         'token': main.token,
-                        'data': main.selectCourses
+                        'data': filteredCourses
                     })
                 })
                     .then(function (response) {
