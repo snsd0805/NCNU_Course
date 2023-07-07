@@ -18,17 +18,7 @@ var mainWindow = {
     created() {
         var main = this
 		window.handleCredentialResponse = (response) => {
-			console.log("This is callback")
-			console.log(response)
-			console.log(jwt_decode(response.credential))
 			var responsePayload = jwt_decode(response.credential)
-
-			 console.log("ID: " + responsePayload.sub);
-			 console.log('Full Name: ' + responsePayload.name);
-			 console.log('Given Name: ' + responsePayload.given_name);
-			 console.log('Family Name: ' + responsePayload.family_name);
-			 console.log("Image URL: " + responsePayload.picture);
-			 console.log("Email: " + responsePayload.email);
 
 			main.uid = responsePayload.sub
 			main.name = responsePayload.name
@@ -51,9 +41,6 @@ var mainWindow = {
 				.catch(function (err) {
 					alert("錯誤： " + err)
 				})
-			console.log("course: ")
-			console.log(this.selectCourses)
-
 		}
 		window.onload = function () {
 			google.accounts.id.initialize({
@@ -249,22 +236,29 @@ var mainWindow = {
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="https://github.com/snsd0805/NCNU_Course">Github</a></li>
                 
-				<div id="g_id_onload"
-					 data-client_id="455078677638-rohoro5d6211r3qt90os459j8ocv86hh.apps.googleusercontent.com"
-					 data-context="signin"
-					 data-ux_mode="popup"
-					 data-callback="handleCredentialResponse"
-					 data-auto_prompt="false">
-				</div>
+				
+                <template v-if="uid==''">
+					<div id="g_id_onload"
+						 data-client_id="455078677638-rohoro5d6211r3qt90os459j8ocv86hh.apps.googleusercontent.com"
+						 data-context="signin"
+						 data-ux_mode="popup"
+						 data-callback="handleCredentialResponse"
+						 data-auto_prompt="false">
+					</div>
 
-				<div class="g_id_signin"
-					 data-type="standard"
-					 data-shape="pill"
-					 data-theme="outline"
-					 data-text="signin_with"
-					 data-size="large"
-					 data-logo_alignment="left">
-				</div>
+					<div class="g_id_signin"
+						 data-type="standard"
+						 data-shape="pill"
+						 data-theme="outline"
+						 data-text="signin_with"
+						 data-size="large"
+						 data-logo_alignment="left">
+					</div>
+				</template>
+				<template v-else>
+                	<li class="nav-item mx-0 mx-lg-1"><a class='nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger'>Hi, {{ this.name }}</a></li>
+				</template
+				
             </ul>
         </div>
     </div>
@@ -286,8 +280,8 @@ var mainWindow = {
         <div class="divider-custom">
             <div class="row">
                 <div class="col-4">
-                    <div v-if="token!=''"><button class="btn btn-danger" @click="saveCourseTable()">儲存</button></div>
-                    <div v-if="token==''"><button class="btn btn-danger" @click="saveCourseTable()">儲存(登入FB)</button></div>
+                    <div v-if="uid!=''"><button class="btn btn-danger" @click="saveCourseTable()">儲存</button></div>
+                    <div v-if="uid==''"><button class="btn btn-danger btn-disable" @click="saveCourseTable()">儲存(請先登入Google)</button></div>
                 </div>
                 <div class="col-4">
                     <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
