@@ -40,17 +40,14 @@ def get():
 def save():
     # 先驗證 access code 是否正確
     jsonData = request.get_json()
+    uid = jsonData['uid']
+    data = jsonData['data']
 
-    status, uid, name = facebookAuth(jsonData['token'])
-
-    if status:
-        with sqlite3.connect('data.db') as conn:
-            sql = "UPDATE `courseTables` SET `json`=? WHERE `uid`=?"
-            conn.execute(sql, [json.dumps(jsonData['data'], ensure_ascii=False), uid])
-            conn.commit()
-            return '{"status": "saved"}', 200
-    else:
-        return '{"status": "error access code"}', 403
+    with sqlite3.connect('data.db') as conn:
+        sql = "UPDATE `courseTables` SET `json`=? WHERE `uid`=?"
+        conn.execute(sql, [json.dumps(data, ensure_ascii=False), uid])
+        conn.commit()
+        return '{"status": "saved"}', 200
 
 @app.route('/shared/<uid>', methods=['GET'])
 def shared(uid):
@@ -69,6 +66,7 @@ def shared(uid):
             return json.dumps({
                 "status": "not found",
             }), 404
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0')

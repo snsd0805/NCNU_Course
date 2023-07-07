@@ -91,7 +91,7 @@ var mainWindow = {
         },
         'saveCourseTable': function () {
             var main = this
-            if (this.token != "") {
+            if (this.uid != "") {
                 filteredCourses = []
                 for(var tempCourse of main.selectCourses){
                     if(tempCourse.temp == false){
@@ -104,7 +104,7 @@ var mainWindow = {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        'token': main.token,
+                        'uid': main.uid,
                         'data': filteredCourses
                     })
                 })
@@ -123,8 +123,8 @@ var mainWindow = {
                     })
 
             } else {
-                this.login()
-            }
+            	alert("請先使用 Google 登入")
+			}
         },
         'getTime': function (timeString) {
             let num;
@@ -281,7 +281,7 @@ var mainWindow = {
             <div class="row">
                 <div class="col-4">
                     <div v-if="uid!=''"><button class="btn btn-danger" @click="saveCourseTable()">儲存</button></div>
-                    <div v-if="uid==''"><button class="btn btn-danger btn-disable" @click="saveCourseTable()">儲存(請先登入Google)</button></div>
+                    <div v-if="uid==''"><button class="btn btn-danger disabled" @click="saveCourseTable()">儲存(請先登入Google)</button></div>
                 </div>
                 <div class="col-4">
                     <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
