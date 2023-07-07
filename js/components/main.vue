@@ -34,7 +34,7 @@ var mainWindow = {
 					for (var course of main.selectCourses) {
 						if (!courseSet.has(course.number+course.class)) {   // 用 courseID + 班別 判斷是否重複
 							main.creditNum += parseFloat(course.credit)
-							courseSet.add(course)
+							courseSet.add(course.number+course.class)
 						}
 					}
 				})
@@ -49,7 +49,6 @@ var mainWindow = {
 			});
 			google.accounts.id.prompt();
 		};
-		main.getCourseTable()
 		console.log("here")
     },
     mounted() {
@@ -83,12 +82,6 @@ var mainWindow = {
         $(window).scroll(navbarCollapse);
     },
     methods: {
-        'getCourseTable': function () {
-            var main = this
-            FB.getLoginStatus(function (response) {
-                main.statusChangeCallback(response);
-            });
-        },
         'saveCourseTable': function () {
             var main = this
             if (this.uid != "") {
@@ -243,6 +236,7 @@ var mainWindow = {
 						 data-context="signin"
 						 data-ux_mode="popup"
 						 data-callback="handleCredentialResponse"
+						 data-auto_select="true"
 						 data-auto_prompt="false">
 					</div>
 
@@ -290,9 +284,15 @@ var mainWindow = {
                 </div>
             </div>
         </div>
-		Facebook變動開發者權限規範，目前狀況無法排除...部份使用者無法進行Facebook登入，搶修中...
+		<strong>重要通知</strong>
 		<br>
-		<strong>Google登入功能測試中，請不要點選...工程師半夜正在加班中...</strong>
+		因 Facebook 變動開發者權限規範，目前更新為使用 Google 登入
+		<br>
+		但因為是我半夜昏昏沉沉改出來的 code 所以可能不穩定
+		<br>
+		遇到問題請 mail: levi900227@gmail.com
+		<br>
+		2023/07/08 03:30
         <br>
 		<br><br>
         <div class="row">
@@ -360,10 +360,10 @@ var mainWindow = {
             <div class="modal-body">
                 <ul>
                     <li>已經更新成 1121 新學期課表</li>
-					<li><strong>Facebook變動開發者權限規範，目前狀況無法排除...無法進行Facebook登入，搶修中...</strong></li>
+					<li><strong>Facebook變動開發者權限規範，目前更新為使用 Google 進行登入</strong></li>
                     <li>有發現 Bug 可以到 <a href='https://github.com/snsd0805/NCNU_Course/issues'>GitHub</a> 發 issue 或 <a href='mailto:levi900227@gmail.com'>mail</a></li>
                 </ul>
-                2023 06/19 更新
+                2023 07/08 更新
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
