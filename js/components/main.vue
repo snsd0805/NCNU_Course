@@ -10,29 +10,35 @@ var mainWindow = {
             'token': "",
             'is_print': false,
             'creditNum': 0,
+            'year': "1121"
         }
     },
     created() {
         var main = this
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '',
-                cookie: true,
-                xfbml: true,
-                version: 'v9.0'
-            });
+		window.handleCredentialResponse = (response) => {
+			console.log("This is callback")
+			console.log(response)
+			console.log(jwt_decode(response.credential))
+			var responsePayload = jwt_decode(response.credential)
 
-            FB.AppEvents.logPageView();
-            main.getCourseTable()
-        };
+			 console.log("ID: " + responsePayload.sub);
+			 console.log('Full Name: ' + responsePayload.name);
+			 console.log('Given Name: ' + responsePayload.given_name);
+			 console.log('Family Name: ' + responsePayload.family_name);
+			 console.log("Image URL: " + responsePayload.picture);
+			 console.log("Email: " + responsePayload.email);
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+			main.token = responsePayload.sub
+		}
+		window.onload = function () {
+			google.accounts.id.initialize({
+				client_id: '455078677638-rohoro5d6211r3qt90os459j8ocv86hh.apps.googleusercontent.com',
+				callback: handleCredentialResponse
+			});
+			google.accounts.id.prompt();
+		};
+		main.getCourseTable()
+		console.log("here")
     },
     mounted() {
         var main = this
@@ -102,7 +108,7 @@ var mainWindow = {
                         for (var course of main.selectCourses) {
                             if (!courseSet.has(course.number+course.class)) {   // 用 courseID + 班別 判斷是否重複
                                 main.creditNum += parseFloat(course.credit)
-                                courseSet.add(course)
+                                courseSet.add(course.number+course.class)
                             }
                         }
                     })
@@ -224,7 +230,7 @@ var mainWindow = {
                 html2canvas(document.getElementById('course-table-div')).then(function (canvas) {
                     var a = document.createElement('a');
                     a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-                    a.download = '課表.jpg';
+                    a.download = main.year+'課表.jpg';
                     a.click();
                 });
             })
@@ -258,9 +264,22 @@ var mainWindow = {
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="https://github.com/snsd0805/NCNU_Course">Github</a></li>
                 
-                <li v-if="token==''" class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href='#' v-on:click="login()">Facebook登入</a></li>
-                <li v-if="token!=''" class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#" v-on:click="logout()">登出Facebook—{{user.name}}</a></li>
+				<div id="g_id_onload"
+					 data-client_id="455078677638-rohoro5d6211r3qt90os459j8ocv86hh.apps.googleusercontent.com"
+					 data-context="signin"
+					 data-ux_mode="popup"
+					 data-callback="handleCredentialResponse"
+					 data-auto_prompt="false">
+				</div>
 
+				<div class="g_id_signin"
+					 data-type="standard"
+					 data-shape="pill"
+					 data-theme="outline"
+					 data-text="signin_with"
+					 data-size="large"
+					 data-logo_alignment="left">
+				</div>
             </ul>
         </div>
     </div>
@@ -271,7 +290,8 @@ var mainWindow = {
 <section class="page-section portfolio" id="portfolio">
     <div class="container" id='table'>
         <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">課表</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">{{ year }} 課表</h2>
+
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -292,7 +312,11 @@ var mainWindow = {
                 </div>
             </div>
         </div>
+		Facebook變動開發者權限規範，目前狀況無法排除...部份使用者無法進行Facebook登入，搶修中...
+		<br>
+		<strong>Google登入功能測試中，請不要點選...工程師半夜正在加班中...</strong>
         <br>
+		<br><br>
         <div class="row">
             <div class="col-lg-3">
                 <div class="row mx-auto mb-2">
@@ -326,10 +350,10 @@ var mainWindow = {
                         </div>
                     </div>
                 </div>
+                <p class="text-sm-left"></p>
             </div>
             
             <br>
-
             <div class="col-lg-9 table-responsive " >
                 <course-table
                     id="course-table-div"
@@ -357,11 +381,11 @@ var mainWindow = {
             </div>
             <div class="modal-body">
                 <ul>
-                    <li>已經更新為 1101 新學期課表(包含通識課分類)</li>
-                    <li>有發現 Bug 可以到 <a href='https://github.com/snsd0805/NCNU_Course/issues'>GitHub</a> 發 issue 或 <a href='mailto: levi900227@gmail.com'>mail</a></li>
-                    <li>請善用「連接 Facebook」功能來儲存課表！</li>
+                    <li>已經更新成 1121 新學期課表</li>
+					<li><strong>Facebook變動開發者權限規範，目前狀況無法排除...無法進行Facebook登入，搶修中...</strong></li>
+                    <li>有發現 Bug 可以到 <a href='https://github.com/snsd0805/NCNU_Course/issues'>GitHub</a> 發 issue 或 <a href='mailto:levi900227@gmail.com'>mail</a></li>
                 </ul>
-                2021 07/16 更新
+                2023 06/19 更新
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
