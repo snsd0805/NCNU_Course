@@ -211,10 +211,10 @@ var mainWindow = {
             })
         },
         'share': function () {
-            if (this.user != "")
+            if (this.uid != "")
                 $('#share').modal('show');
             else
-                this.login()
+            	alert("請先使用 Google 登入")
         },
     },
     components: {
@@ -257,8 +257,7 @@ var mainWindow = {
 				</template>
 				<template v-else>
                 	<li class="nav-item mx-0 mx-lg-1"><a class='nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger'>Hi, {{ this.name }}</a></li>
-				</template
-				
+				</template>
             </ul>
         </div>
     </div>
@@ -281,7 +280,7 @@ var mainWindow = {
             <div class="row">
                 <div class="col-4">
                     <div v-if="uid!=''"><button class="btn btn-danger" @click="saveCourseTable()">儲存</button></div>
-                    <div v-if="uid==''"><button class="btn btn-danger disabled" @click="saveCourseTable()">儲存(請先登入Google)</button></div>
+                    <div v-if="uid==''"><button class="btn btn-danger" @click="saveCourseTable()">儲存(請先登入Google)</button></div>
                 </div>
                 <div class="col-4">
                     <div><button class="btn btn-success" @click="generatePic()">下載圖檔</button></div>
@@ -384,7 +383,7 @@ var mainWindow = {
             </div>
             <div class="modal-body">
                 請複製以下網址給你的朋友，跟他分享你的課表<br><br>
-                https://course.snsd0805.com/#/share/{{user.id}}
+                https://course.snsd0805.com/#/share/{{this.uid}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
