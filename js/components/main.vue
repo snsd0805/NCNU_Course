@@ -7,10 +7,12 @@ var mainWindow = {
             'selectDepartment': '',
             'foundName': "",
             "user": "",
-            'token': "",
+            'uid': "",
+			'name': "",
             'is_print': false,
             'creditNum': 0,
-            'year': "1121"
+            'year': "1121",
+			'token': "",
         }
     },
     created() {
@@ -28,7 +30,30 @@ var mainWindow = {
 			 console.log("Image URL: " + responsePayload.picture);
 			 console.log("Email: " + responsePayload.email);
 
-			main.token = responsePayload.sub
+			main.uid = responsePayload.sub
+			main.name = responsePayload.name
+
+			fetch('https://api.snsd0805.com/courseTable?uid=' + this.uid + '&name=' + this.name)
+				.then(function (response) {
+					return response.json()
+				}).then(function (jsonData) {
+					console.log(jsonData)
+					main.selectCourses = JSON.parse(jsonData['data'])
+
+					var courseSet = new Set()
+					for (var course of main.selectCourses) {
+						if (!courseSet.has(course.number+course.class)) {   // 用 courseID + 班別 判斷是否重複
+							main.creditNum += parseFloat(course.credit)
+							courseSet.add(course)
+						}
+					}
+				})
+				.catch(function (err) {
+					alert("錯誤： " + err)
+				})
+			console.log("course: ")
+			console.log(this.selectCourses)
+
 		}
 		window.onload = function () {
 			google.accounts.id.initialize({
@@ -71,51 +96,11 @@ var mainWindow = {
         $(window).scroll(navbarCollapse);
     },
     methods: {
-        'login': function () {
-            var main = this
-            FB.login(function () {
-                main.getCourseTable()
-            })
-        },
-        'logout': function () {
-            var main = this
-            FB.logout(function (response) {
-                main.user = ""
-                main.token = ""
-            });
-        },
         'getCourseTable': function () {
             var main = this
             FB.getLoginStatus(function (response) {
                 main.statusChangeCallback(response);
             });
-        },
-        'statusChangeCallback': function (response) {
-            if (response.status == "connected") {
-                this.token = response.authResponse.accessToken
-
-                var main = this
-                FB.api('/me', function (response) { main.user = response })
-
-                fetch('https://api.snsd0805.com/courseTable?token=' + this.token)
-                    .then(function (response) {
-                        return response.json()
-                    }).then(function (jsonData) {
-                        console.log(jsonData)
-                        main.selectCourses = JSON.parse(jsonData['data'])
-
-                        var courseSet = new Set()
-                        for (var course of main.selectCourses) {
-                            if (!courseSet.has(course.number+course.class)) {   // 用 courseID + 班別 判斷是否重複
-                                main.creditNum += parseFloat(course.credit)
-                                courseSet.add(course.number+course.class)
-                            }
-                        }
-                    })
-                    .catch(function (err) {
-                        alert("錯誤： " + err)
-                    })
-            }
         },
         'saveCourseTable': function () {
             var main = this
