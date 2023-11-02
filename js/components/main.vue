@@ -18,7 +18,7 @@ var mainWindow = {
     created() {
         var main = this
 		window.handleCredentialResponse = (response) => {
-			var responsePayload = jwt_decode(response.credential)
+			var responsePayload = jwtDecode(response.credential)
 
 			main.uid = responsePayload.sub
 			main.name = responsePayload.name
@@ -284,16 +284,6 @@ var mainWindow = {
                 </div>
             </div>
         </div>
-		<strong>重要通知</strong>
-		<br>
-		因 Facebook 變動開發者權限規範，目前更新為使用 Google 登入
-		<br>
-		但因為是我半夜昏昏沉沉改出來的 code 所以可能不穩定
-		<br>
-		遇到問題請 mail: levi900227@gmail.com
-		<br>
-		2023/07/08 03:30
-        <br>
 		<br><br>
         <div class="row">
             <div class="col-lg-3">
@@ -361,9 +351,10 @@ var mainWindow = {
                 <ul>
                     <li>已經更新成 1121 新學期課表</li>
 					<li><strong>Facebook變動開發者權限規範，目前更新為使用 Google 進行登入</strong></li>
+                    <li>暨大排課表為「非校方」維護的網頁，所有資訊以學校公告為準，暨大排課表不負責任何選課、課程資訊等相關問題</li>
                     <li>有發現 Bug 可以到 <a href='https://github.com/snsd0805/NCNU_Course/issues'>GitHub</a> 發 issue 或 <a href='mailto:levi900227@gmail.com'>mail</a></li>
                 </ul>
-                2023 07/08 更新
+                2023 07/26 更新
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
