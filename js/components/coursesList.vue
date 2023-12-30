@@ -3,6 +3,7 @@ var coursesList = {
     data: function () {
         return {
             selectedTime: [],
+            selectedId: [],
             foundedCourses: []
         }
     },
@@ -25,8 +26,9 @@ var coursesList = {
             var time = this.getTime(course.time)
             // console.log(course.name, " ", time)
             const isConflict = time.some((t) => this.selectedTime.includes(t))
+            const isSelected = this.selectedId.includes((course.number+course.class))
 
-            return time.length && !isConflict
+            return !isConflict && !isSelected
         },
         'log': function (name, data) {
             console.log(name, data)
@@ -34,13 +36,16 @@ var coursesList = {
     },
     watch: {
         'selected_c': function () {
-            var temp = []
+            var timeTemp = []
+            var idTemp = []
             for (var c of this.selected_c) {
                 if (c.temp == false) {
-                    temp.push(c.time)
+                    timeTemp.push(c.time)
+                    idTemp.push(c.number+c.class)
                 }
             }
-            this.selectedTime = temp
+            this.selectedTime = timeTemp
+            this.selectedId = idTemp
         },
         'find_name': function () {
             const target = this.find_name.toLowerCase();

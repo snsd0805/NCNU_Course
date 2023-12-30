@@ -49,7 +49,6 @@ var mainWindow = {
 			});
 			google.accounts.id.prompt();
 		};
-		console.log("here")
     },
     mounted() {
         var main = this
@@ -141,16 +140,30 @@ var mainWindow = {
         },
         'addCourse': function (course) {
             var time = this.getTime(course.time)
-            for (var t of time) {
-                this.selectCourses.push({
-                    'time': t,
-                    'name': course.name,
-                    'temp': false,
-                    'number': course.number,
-                    'class': course.class,
-                    'credit': course.credit,
-                    'link': course.link
-                })
+            if ( time.length != 0 ){
+                for (var t of time) {
+                    this.selectCourses.push({
+                        'time': t,
+                        'name': course.name,
+                        'temp': false,
+                        'number': course.number,
+                        'class': course.class,
+                        'credit': course.credit,
+                        'link': course.link,
+                        'teacher': course.teacher
+                    })
+                }
+            } else {
+                    this.selectCourses.push({
+                        'time': '另訂',
+                        'name': course.name,
+                        'temp': false,
+                        'number': course.number,
+                        'class': course.class,
+                        'credit': course.credit,
+                        'link': course.link,
+                        'teacher': course.teacher
+                    })
             }
             this.creditNum += parseFloat(course.credit)
         },
