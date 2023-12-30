@@ -4,7 +4,7 @@ var courseDiv = {
         <div style='border: 5px #1abc9c solid; text-align: center;'>
             {{ course.name }}
             <template v-if='course.time == "另訂"'>
-                - {{ course.teacher }}
+                - {{ course.teacher }} 老師
             </template>
             <a v-bind:href="course.link" target="_blank"><i class="fas fa-info-circle"></i></a>
             <button type="button" 
@@ -56,7 +56,6 @@ var courseTable = {
             var weekendLock = false
 
             for(var c of this.select_c){
-                console.log(c)
                 if(c.time != '另訂'){
                     this.courses[c.time] = {
                         'name': c.name,
@@ -90,7 +89,6 @@ var courseTable = {
             }else{
                 this.existWeekend = false
             }
-            console.log(this.coursesWithoutTime)
         }
     },
     components: {
@@ -179,7 +177,7 @@ var courseTable = {
                         ></course-div>
                     </td>
                 </tr>
-            </template
+            </template>
         </tbody>
     </table>
 </div>
