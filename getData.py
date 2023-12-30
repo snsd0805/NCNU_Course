@@ -6,23 +6,24 @@ from bs4 import BeautifulSoup as bs
 
 USERNAME = ""
 PASSWORD = ""
-YEAR = 1111
+YEAR = 1122
 
 session = requests.Session()
 
-mainURL = "https://ccweb.ncnu.edu.tw/student/"
+mainURL = "https://ccweb6.ncnu.edu.tw/student/"
 courses = []
 generalCourse = []
 
 def login(username, password):
     global session
-    response = session.get('https://ccweb.ncnu.edu.tw/student/login.php')
+    response = session.get('https://ccweb6.ncnu.edu.tw/student/login.php')
+    print(response.text)
     root = bs(response.text, 'html.parser')
     loginToken = root.find('input', {'name': 'token'}).get('value')
 
     # request login page
     response = session.post(
-        "https://ccweb.ncnu.edu.tw/student/login.php",
+        "https://ccweb6.ncnu.edu.tw/student/login.php",
         data={
             'token': loginToken,
             'modal': '0',
