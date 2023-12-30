@@ -153,6 +153,7 @@ var courseTable = {
             </tr>
         </tbody>
     </table>
+	<br><br>
     <table class="table table-bordered" style="table-layout: fixed;word-wrap: break-word;">
         <thead>
             <tr>
