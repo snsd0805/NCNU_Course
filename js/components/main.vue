@@ -53,7 +53,7 @@ var mainWindow = {
     mounted() {
         var main = this
         axios
-            .get("./output.json")
+            .get("./output.json?nocache="+Date.now())
             .then(response => (main.courses = response.data))
             .then(function () {
                 for (var course of main.courses) {
