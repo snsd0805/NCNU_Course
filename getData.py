@@ -4,9 +4,13 @@ import os
 import csv
 from bs4 import BeautifulSoup as bs
 
-USERNAME = ""
-PASSWORD = ""
-YEAR = 1122
+try:
+    USERNAME = os.environ['NCNU_USERNAME']
+    PASSWORD = os.environ['NCNU_PASSWORD']
+    YEAR = os.environ['NCNU_YEAR']
+except:
+    print("Usage: NCNU_USERNAME={YOUR_NCNU_USERNAME} NCNU_PASSWORD={YOUR_NCNU_PASSWORD} NCNU_YEAR={ex. 1131} python getData.py")
+    exit(1)
 
 session = requests.Session()
 
@@ -109,8 +113,8 @@ def updateGeneralCourse():
                     if course['number'] == line[0]:
                         course['department'] = department
                         count += 1
-            if count == 0 and len(line) != 2:
-                print("{} 可能輸入錯誤 - {}".format(line[0], department))
+            # if count == 0 and len(line) != 2:
+            #     print("{} 可能輸入錯誤 - {}".format(line[0], department))
             line = fp.readline()
 
     print("還沒有對應到的課程：")
