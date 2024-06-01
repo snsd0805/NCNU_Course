@@ -88,9 +88,8 @@ var share = {
                 </button>
             </div>
             <div class="modal-body">
-                已經更新為 1092 新課表<br>
-                但因學校未更新通識課資料，因此還沒有「通識課程分類」<br><br>
-                2021 01/14 更新
+                已經更新為 1131 新課表<br>
+                2024 05/29 更新
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">我知道了</button>
