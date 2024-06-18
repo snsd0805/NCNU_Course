@@ -14,20 +14,20 @@ generalCourse = []
 
 def getDepartmentCourses():
     def getCourseTime(course):
-        week_map = dict(zip(['一', '二', '三', '四', '五', '六', '日'], range(7)))
+        week_map = dict(zip(['一', '二', '三', '四', '五', '六', '日'], range(1, 8)))
 
         try:
             time_str = course['SemCourseTime']
-            ans = week_map[time_str[0]]
+            ans = str(week_map[time_str[0]])
             ptr = 2
             while time_str[ptr] != ')':
-                if ans != ',':
+                if time_str[ptr] != ',':
                     ans += time_str[ptr]
+                ptr += 1
             return ans
         except:
             return '另訂'
 
-    '''
     response = session.get('https://sis.ncnu.edu.tw/guest?school=ncnu')
     soup = bs(response.text, 'html.parser')
     token = soup.find('meta', attrs={'name': 'csrf-token'}).get('content')
@@ -69,15 +69,8 @@ def getDepartmentCourses():
 
     data = json.loads(data_line)
 
-    with open('new.json', 'w') as fp:
-        json.dump(data, fp, ensure_ascii=False)
-    print(data.keys())
-    '''
-    with open('new.json') as fp:
-        data = json.load(fp)['data']
-
     courses = []
-    for course in data:
+    for course in data['data']:
         courses.append({
             'link': f'https://sis.ncnu.edu.tw/b09/b09120/view/{course["SemesterCourseID"]}',
             'year': SEMESTER,
@@ -114,12 +107,9 @@ def getDepartmentCourses():
                     course['department'] = course['memo']
             else:
                 course['department'] += '(無分類)'
-            print(course['department'], course['name'])
-            # print(course['name'], course['department'])
 
     with open(f'歷年課程資料/{SEMESTER}_output.json', 'w') as fp:
         json.dump(courses, fp, ensure_ascii=False)
-
 
 
 def updateGeneralCourse():
