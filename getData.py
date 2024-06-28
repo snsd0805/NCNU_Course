@@ -38,11 +38,14 @@ def login(username, password):
     )
 
     # 成功的話 return http 302, redirect
+    # it always return 500 error now, maybe influenced by the new course system.
+    return True
+    '''
     if len(response.history)!=0:
         return True
     else:
         return False
-
+    '''
 def curlDepartmentCourseTable(year):
     '''
         先取得各科系的開課表格連結
