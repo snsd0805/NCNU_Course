@@ -17,11 +17,15 @@ var mainWindow = {
     },
     created() {
         var main = this
+		let autoLoginGoogleAccount = localStorage.autoLoginGoogleAccount || ""
 		window.handleCredentialResponse = (response) => {
+			
 			var responsePayload = jwtDecode(response.credential)
 
 			main.uid = responsePayload.sub
 			main.name = responsePayload.name
+			localStorage.autoLoginGoogleAccount = responsePayload.email;
+
 
 			fetch('https://api.snsd0805.com/courseTable?uid=' + this.uid + '&name=' + this.name)
 				.then(function (response) {
@@ -45,7 +49,10 @@ var mainWindow = {
 		window.onload = function () {
 			google.accounts.id.initialize({
 				client_id: '455078677638-rohoro5d6211r3qt90os459j8ocv86hh.apps.googleusercontent.com',
-				callback: handleCredentialResponse
+				callback: handleCredentialResponse,
+				use_fedcm_for_prompt: true,
+				auto_select: true,
+				login_hint: autoLoginGoogleAccount
 			});
 			google.accounts.id.prompt();
 		};
