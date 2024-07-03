@@ -16,17 +16,19 @@ def getDepartmentCourses():
     def getCourseTime(course):
         week_map = dict(zip(['一', '二', '三', '四', '五', '六', '日'], range(1, 8)))
 
-        try:
-            time_str = course['SemCourseTime']
-            ans = str(week_map[time_str[0]])
-            ptr = 2
-            while time_str[ptr] != ')':
-                if time_str[ptr] != ',':
-                    ans += time_str[ptr]
-                ptr += 1
-            return ans
-        except:
-            return '另訂'
+
+        # try:
+        time_str = course['SemCourseTime']
+        print(time_str)
+        # ans = str(week_map[int(time_str[0])])
+        ptr = 2
+        while time_str[ptr] != ')':
+            if time_str[ptr] != ',':
+                ans += time_str[ptr]
+            ptr += 1
+        return ans
+        # except:
+        #    return '另訂'
 
     response = session.get('https://sis.ncnu.edu.tw/guest?school=ncnu')
     soup = bs(response.text, 'html.parser')
@@ -83,7 +85,7 @@ def getDepartmentCourses():
             'grade': '0',
             'teacher': course['Teacher'],
             'place': course['ClassRoom'] if course['ClassRoom'] != '' else '另訂',
-            'time': getCourseTime(course),
+            'time': course['SemCourseTime'].replace(',','').replace(' ', ''),# getCourseTime(course),
             'credit': course['Credit'],
             'max': course['StdAmtUp'],
             'memo': course['Memo'],
@@ -101,10 +103,11 @@ def getDepartmentCourses():
             if course['memo'] != '':
                 if '，' in course['memo']: 
                     field, limit = course['memo'].split('，')
-                    course['department'] = field
+                    course['department'] = f"※ 通識－{field}"
+
                     course['name'] += f'({limit})' 
                 else:
-                    course['department'] = course['memo']
+                    course['department'] = f"※ 通識－{course['memo']}"
             else:
                 course['department'] += '(無分類)'
 
