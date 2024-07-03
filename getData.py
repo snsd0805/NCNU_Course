@@ -3,105 +3,120 @@ import json
 import os
 import csv
 from bs4 import BeautifulSoup as bs
+import re
 
-try:
-    USERNAME = os.environ['NCNU_USERNAME']
-    PASSWORD = os.environ['NCNU_PASSWORD']
-    YEAR = os.environ['NCNU_YEAR']
-except:
-    print("Usage: NCNU_USERNAME={YOUR_NCNU_USERNAME} NCNU_PASSWORD={YOUR_NCNU_PASSWORD} NCNU_YEAR={ex. 1131} python getData.py")
-    exit(1)
+SEMESTER = '1131'
 
 session = requests.Session()
 
-mainURL = "https://ccweb6.ncnu.edu.tw/student/"
 courses = []
 generalCourse = []
 
-def login(username, password):
-    global session
-    response = session.get('https://ccweb6.ncnu.edu.tw/student/login.php')
-    print(response.text)
-    root = bs(response.text, 'html.parser')
-    loginToken = root.find('input', {'name': 'token'}).get('value')
+def getDepartmentCourses():
+    def getCourseTime(course):
+        week_map = dict(zip(['一', '二', '三', '四', '五', '六', '日'], range(1, 8)))
 
-    # request login page
-    response = session.post(
-        "https://ccweb6.ncnu.edu.tw/student/login.php",
-        data={
-            'token': loginToken,
-            'modal': '0',
-            'username': username,
-            'password': password,
-            'type': 'a'
-        }
-    )
 
-    # 成功的話 return http 302, redirect
-    # it always return 500 error now, maybe influenced by the new course system.
-    return True
-    '''
-    if len(response.history)!=0:
-        return True
-    else:
-        return False
-    '''
-def curlDepartmentCourseTable(year):
-    '''
-        先取得各科系的開課表格連結
-        再將連結丟給 extractDepartmentCourseTable() 取得課程資訊
-    '''
-    print("取得所有課程資料：")
+        # try:
+        time_str = course['SemCourseTime']
+        print(time_str)
+        # ans = str(week_map[int(time_str[0])])
+        ptr = 2
+        while time_str[ptr] != ')':
+            if time_str[ptr] != ',':
+                ans += time_str[ptr]
+            ptr += 1
+        return ans
+        # except:
+        #    return '另訂'
 
-    # 切換年度，應該是用 cookie 儲存當前閱覽的年份
-    url = 'https://ccweb6.ncnu.edu.tw/student/aspmaker_course_opened_detail_viewlist.php?cmd=search&t=aspmaker_course_opened_detail_view&z_year=%3D&x_year={}&z_courseid=%3D&x_courseid=&z_cname=LIKE&x_cname=&z_deptid=%3D&x_deptid=&z_division=LIKE&x_division=&z_grade=%3D&x_grade=&z_teachers=LIKE&x_teachers=&z_not_accessible=LIKE&x_not_accessible='
-    response = session.get(url.format(year))
+    response = session.get('https://sis.ncnu.edu.tw/guest?school=ncnu')
+    soup = bs(response.text, 'html.parser')
+    token = soup.find('meta', attrs={'name': 'csrf-token'}).get('content')
+    response = session.post('https://sis.ncnu.edu.tw/b09/b09120', data={
+        '_token': token,
+        'srh[ACADYear][]': '113',
+        'srh[Semester][]': '1',
+        'srh[DayfgID][]': '',
+        'srh[ClassTypeID][]': '',
+        'srh[CollegeID][]': '',
+        'srh[UnitID][]': '',
+        'srh[StudyCourseCategoryNo]': '',
+        'srh[ClassID]': '',
+        'srh[SemesterCourseNo]': '',
+        'srh[Teacher]': '',
+        'srh[SemesterCourseName]': '',
+        'srh[TeaLanguage][]': '',
+        'srh[ClassRoomType][]': '',
+        'srh[ClassRoom][]': '',
+        'srh[DayKind][]': '',
+        'srh[SectionBeg][]': '',
+        'srh[SectionEnd][]': '',
+        'srh[IsFollowUp][]': '',
+        'tb_length': '10',
+        'tb_sel': '',
+        'tb_cancel': '',
+        'event': 'search'
+    })
+    
+    data_line = ''
+    for line in response.text.splitlines():
+        if 'setDataTables' in line:
+            data_line = line
+            break
 
-    # 取得 所有課程的 csv
-    response = session.get('https://ccweb6.ncnu.edu.tw/student/aspmaker_course_opened_detail_viewlist.php?export=csv')
-    with open("allCourses.csv", "wb") as fp:
-        fp.write(response.content)
+    data_line = '{'.join(data_line.split('{')[1:])
+    data_line = '}'.join(data_line.split('}')[:-1])
+    data_line = '{' + data_line + '}'
 
-def extractDepartmentCourseTable(year):
-    '''
-        透過各科系連結取得課程資訊
-        若為通識類別還要跟csv檔資料做對應，取得正確通識類別
-        
-        對應後存取到 output.json
-    '''
-    with open("allCourses.csv") as fp:
-        csvData = fp.read()
+    data = json.loads(data_line)
 
-    ans = []
-    courses = csvData.split('"\n')[1:-1]
+    courses = []
+    for course in data['data']:
+        courses.append({
+            'link': f'https://sis.ncnu.edu.tw/b09/b09120/view/{course["SemesterCourseID"]}',
+            'year': SEMESTER,
+            'number': course['SemesterCourseID'],   # course['SemesterCourseNo']
+            'class': course['StudyClassName'],
+            'name': re.search('>.*<', course['SemesterCourseName']).group(0)[1:-1] \
+                        if '<a href' in course['SemesterCourseName'] else course['SemesterCourseName'],
+            'department': course['StudyCourseCategoryNames'],
+            'graduated': course['DayfgClassTypeName'],
+            'grade': '0',
+            'teacher': course['Teacher'],
+            'place': course['ClassRoom'] if course['ClassRoom'] != '' else '另訂',
+            'time': course['SemCourseTime'].replace(',','').replace(' ', ''),# getCourseTime(course),
+            'credit': course['Credit'],
+            'max': course['StdAmtUp'],
+            'memo': course['Memo'],
+        })
+        '''
+        'semester_course_number': course['SemesterCourseNo'],
+        'english_name': course['SemesterCourseENGName'],
+        'choose': course['Choose'],
+        'course_class_name': course['CourseClassName'],
+        '''
+
+    # 通識領域
     for course in courses:
-        course = course.replace('\n', '.')
-        # print(course)
-        data = course[1:].split('","')
-        
-        courseObj = {}
+        if course['department'] == '通識領域課程':
+            if course['memo'] != '':
+                if '，' in course['memo']: 
+                    field, limit = course['memo'].split('，')
+                    course['department'] = f"※ 通識－{field}"
 
-        baseLink = "https://ccweb6.ncnu.edu.tw/student/aspmaker_course_opened_detail_viewlist.php?cmd=search&t=aspmaker_course_opened_detail_view&z_year=%3D&x_year={}&x_courseid={}"
-        courseObj['link']        = baseLink.format(year, data[1].zfill(6))
-        courseObj['year']        = data[0]
-        courseObj['number']      = data[1]
-        courseObj['class']       = data[2]
-        courseObj['name']        = data[3]
-        courseObj['department']  = data[4]
-        courseObj['graduated']   = data[6]
-        courseObj['grade']       = data[7]
-        courseObj['teacher']     = data[8]
-        courseObj['place']       = data[9]
-        courseObj['time']        = data[13].replace(' ', '')
-        courseObj['credit']      = data[14]
+                    course['name'] += f'({limit})' 
+                else:
+                    course['department'] = f"※ 通識－{course['memo']}"
+            else:
+                course['department'] += '(無分類)'
 
-        ans.append(courseObj)
+    with open(f'歷年課程資料/{SEMESTER}_output.json', 'w') as fp:
+        json.dump(courses, fp, ensure_ascii=False)
 
-    with open("歷年課程資料/{}_output.json".format(year), 'w') as fp:
-        json.dump(ans, fp, ensure_ascii=False)
 
 def updateGeneralCourse():
-    with open("歷年課程資料/{}_output.json".format(YEAR)) as fp:
+    with open("歷年課程資料/{}_output.json".format(SEMESTER)) as fp:
         courses = json.load(fp)
 
     with open("generalCourse.in") as fp:
@@ -130,17 +145,5 @@ def updateGeneralCourse():
         json.dump(courses, fp, ensure_ascii=False)
 
 
-
 if __name__ == "__main__":
-    while True:
-        username = USERNAME
-        password = PASSWORD
-        if login(username, password):
-            print("登入成功！")
-            break
-        else:
-            print("登入失敗！")
-    
-    curlDepartmentCourseTable(YEAR)
-    extractDepartmentCourseTable(YEAR)
-    updateGeneralCourse()
+    getDepartmentCourses()
