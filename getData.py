@@ -100,14 +100,19 @@ def getDepartmentCourses():
     # 通識領域
     for course in courses:
         if course['department'] == '通識領域課程':
+            course['memo'] = course['memo'].replace(',', '，')
             if course['memo'] != '':
-                if '，' in course['memo']: 
-                    field, limit = course['memo'].split('，')
-                    course['department'] = f"※ 通識－{field}"
+                if '領域' in course['memo']:
+                    if '，' in course['memo']: 
+                        field, limit = course['memo'].split('，')
+                        course['department'] = f"※ 通識－{field}"
 
-                    course['name'] += f'({limit})' 
+                        course['name'] += f'({limit})' 
+                    else:
+                        course['department'] = f"※ 通識－{course['memo']}"
                 else:
-                    course['department'] = f"※ 通識－{course['memo']}"
+                        course['department'] = f"※ 通識－學校未正常分類之課程"
+
             else:
                 course['department'] += '(無分類)'
 
