@@ -64,23 +64,50 @@ def getDepartmentCourses():
         'tb_cancel': '',
         'event': 'search'
     })
-    with open('/tmp/index.html', 'w') as fp:
-        fp.write(response.text)
-    
-    data_line = ''
-    for line in response.text.splitlines():
-        if 'setDataTables' in line:
-            data_line = line
-            break
+    soup = bs(response.text, 'html.parser')
+    token = soup.find('meta', attrs={'name': 'csrf-token'}).get('content')
 
-    data_line = '{'.join(data_line.split('{')[1:])
-    data_line = '}'.join(data_line.split('}')[:-1])
-    data_line = '{' + data_line + '}'
+    # 搜尋結果實際上是由頁面載入後另外發出的 DataTables AJAX 請求取得，
+    # 上面的 srh[...] 查詢只是先把篩選條件存進 session，這邊要照 DataTables
+    # 的 server-side protocol 再送一次才拿得到真正的課程資料
+    columns = [
+        '', 'CourseNo', 'StudyClassName', 'SemesterCourseName', 'SemesterCourseENGName',
+        'CourseClassName', 'Credit', 'UnitName', 'DayfgClassTypeName', 'Grade', 'Teacher',
+        'SemCourseTime', 'ClassRoom', 'Memo', 'TeaLanguage', 'StdAmtLow', 'StdAmtUp',
+        'VolCnt', 'VolGetCnt', 'SelAmt', 'SemesterCourseNo', 'Choose'
+    ]
 
-    data = json.loads(data_line)
+    def buildDataTablesPayload(length):
+        payload = {
+            'draw': '1',
+            'start': '0',
+            'length': str(length),
+            'search[value]': '',
+            'search[regex]': 'false',
+        }
+        for i, name in enumerate(columns):
+            payload[f'columns[{i}][data]'] = name
+            payload[f'columns[{i}][name]'] = ''
+            payload[f'columns[{i}][searchable]'] = 'true'
+            payload[f'columns[{i}][orderable]'] = 'true'
+            payload[f'columns[{i}][search][value]'] = ''
+            payload[f'columns[{i}][search][regex]'] = 'false'
+        return payload
+
+    ajaxHeaders = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': token,
+    }
+
+    # 先探詢總筆數，再用剛好的 length 一次拿完全部資料
+    probe = session.post('https://sis.ncnu.edu.tw/b09/b09120', data=buildDataTablesPayload(1), headers=ajaxHeaders).json()
+    total = int(probe['recordsTotal'])
+    print(f"共 {total} 筆課程")
+
+    result = session.post('https://sis.ncnu.edu.tw/b09/b09120', data=buildDataTablesPayload(total), headers=ajaxHeaders).json()
 
     courses = []
-    for course in data['data']:
+    for course in result['data']:
         courses.append({
             'link': f'https://sis.ncnu.edu.tw/b09/b09120/view/{course["SemesterCourseID"]}',
             'year': SEMESTER,
@@ -92,11 +119,11 @@ def getDepartmentCourses():
             'graduated': course['DayfgClassTypeName'],
             'grade': '0',
             'teacher': course['Teacher'],
-            'place': course['ClassRoom'] if course['ClassRoom'] != '' else '另訂',
-            'time': course['SemCourseTime'].replace(',','').replace(' ', '') if course['SemCourseTime'] != "" else '另訂',# getCourseTime(course),
+            'place': course['ClassRoom'] if course['ClassRoom'] else '另訂',
+            'time': course['SemCourseTime'].replace(',','').replace(' ', '') if course['SemCourseTime'] else '另訂',# getCourseTime(course),
             'credit': course['Credit'],
             'max': course['StdAmtUp'],
-            'memo': course['Memo'],
+            'memo': course['Memo'] or '',
         })
         '''
         'semester_course_number': course['SemesterCourseNo'],
@@ -132,7 +159,7 @@ def getDepartmentCourses():
     for course in courses:
         print(course['name'])
 
-    with open(f'歷年課程資料/{SEMESTER}_output.json', 'w') as fp:
+    with open(f'歷年課程資料/{SEMESTER}_output.json', 'w', encoding='utf-8') as fp:
         json.dump(courses, fp, ensure_ascii=False)
 
 if __name__ == "__main__":

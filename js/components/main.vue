@@ -11,7 +11,7 @@ var mainWindow = {
 			'name': "",
             'is_print': false,
             'creditNum': 0,
-            'year': "1131",
+            'year': "1151",
 			'token': "",
         }
     },
@@ -369,7 +369,7 @@ var mainWindow = {
             </div>
             <div class="modal-body">
                 <ul>
-                    <li>已經更新成 1131 新學期(2024 Fall)課表，感謝我的好朋友資工系陳宇鴻協助本學期的課表更新</li>
+                    <li>已經更新成 1151 新學期(2026 Fall)課表，感謝我的好朋友資工系陳宇鴻協助本學期的課表更新</li>
                     <li>暨大排課表為「非校方」維護的網頁，所有資訊以學校公告為準，暨大排課表不負責任何選課、課程資訊等相關問題</li>
                     <li>有發現 Bug 可以到 <a href='https://github.com/snsd0805/NCNU_Course/issues'>GitHub</a> 發 issue 或 <a href='mailto:levi900227@gmail.com'>mail</a></li>
                 </ul>

@@ -1,1 +1,11 @@
 .DS_Store
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+#General Cource Finder
+general_course_lookup/example_cource_list.txt
+general_course_lookup/example_type.txt
