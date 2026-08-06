@@ -5,7 +5,7 @@ import csv
 from bs4 import BeautifulSoup as bs
 import re
 
-SEMESTER = '1132'
+SEMESTER = '1151'
 
 session = requests.Session()
 

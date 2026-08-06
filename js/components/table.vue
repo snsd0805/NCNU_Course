@@ -115,7 +115,7 @@ var courseTable = {
             <tr v-for="hour in 13">
                 <template v-if="hour+7==12">
                     <th style='text-align: center;' scope='row'>
-                        {{ hour+7 }}~{{ hour+8 }}  <br> z
+                        {{ hour+7 }}:00 ~ {{ hour+8 }}:30  <br> z
                     </th>
                     
                     <td style='text-align: center; background-color: #1abc9c;'
@@ -129,9 +129,28 @@ var courseTable = {
                         
                     </td>
                 </template>
+                <template v-else-if="hour+7<=12">
+                    <th style='text-align: center;' scope='row'>
+                        {{ hour+7 }}:10 ~ {{ hour+8 }}:00   <br>
+                        {{ String.fromCharCode(97+((hour<5)?(hour-1):(hour-2))) }}
+                    </th>
+                    <td v-for='week in (existWeekend)?7:5'>
+                        <course-div 
+                            v-if="exist(week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))) && !courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))].temp"
+                            v-bind:course="courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))]"
+                            v-bind:is_shared="is_shared"
+                            v-bind:is_print="is_print"
+                            v-on:remove-course="removeCourseHandler"
+                        ></course-div>
+                        <temp-div 
+                            v-if="exist(week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))) && courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))].temp"
+                            v-bind:course="courses[week+String.fromCharCode(97+((hour<5)?(hour-1):(hour-2)))]"
+                        ></temp-div>
+                    </td>
+                </template>
                 <template v-else>
                     <th style='text-align: center;' scope='row'>
-                        {{ hour+7 }} ~ {{ hour+8 }}   <br>
+                        {{ hour+7 }}:30 ~ {{ hour+8 }}:20   <br>
                         {{ String.fromCharCode(97+((hour<5)?(hour-1):(hour-2))) }}
                     </th>
                     <td v-for='week in (existWeekend)?7:5'>
